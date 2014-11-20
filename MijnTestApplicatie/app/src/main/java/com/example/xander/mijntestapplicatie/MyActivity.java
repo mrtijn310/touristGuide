@@ -24,6 +24,7 @@ public class MyActivity extends Activity {
     int mId = 0;
     NotificationCompat.Builder mBuilder;
     Button btEditPush;
+    Button btGoToOverview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,15 @@ public class MyActivity extends Activity {
                 editNotification();
             }
         });
+
+        btGoToOverview = (Button) findViewById(R.id.btGoToOverview);
+        btGoToOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToOverview();
+            }
+        });
+
     }
 
     protected void onStart(){
@@ -79,7 +89,14 @@ public class MyActivity extends Activity {
         Log.e("Status: ","onDestroy");
     }
 
-    private void editNotification(){
+    private void goToOverview() {
+        Intent intent = new Intent(this, OverviewActivity.class);
+        startActivity(intent);
+
+    }
+
+
+        private void editNotification(){
         mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)

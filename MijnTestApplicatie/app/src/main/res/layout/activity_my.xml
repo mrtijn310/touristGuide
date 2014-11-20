@@ -26,4 +26,13 @@
         android:layout_alignRight="@+id/btnNewIntent"
         android:layout_alignEnd="@+id/btnNewIntent" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to overview"
+        android:id="@+id/btGoToOverview"
+        android:layout_below="@+id/btEditNotification"
+        android:layout_alignRight="@+id/btEditNotification"
+        android:layout_alignEnd="@+id/btEditNotification" />
+
 </RelativeLayout>
