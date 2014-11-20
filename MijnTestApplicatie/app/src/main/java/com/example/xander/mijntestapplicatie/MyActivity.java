@@ -23,7 +23,8 @@ public class MyActivity extends Activity {
 
     int mId = 0;
     NotificationCompat.Builder mBuilder;
-    Button btEditPush, btMaps;
+
+    Button btMaps;
     Button btEditPush;
     Button btGoToOverview;
 

@@ -27,21 +27,19 @@
         android:layout_alignEnd="@+id/btnNewIntent" />
 
     <Button
-<<<<<<< HEAD
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Google Maps Test"
         android:id="@+id/btGoogle"
         android:layout_below="@+id/btEditNotification"
         android:layout_alignParentLeft="true" />
-=======
+<Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Go to overview"
         android:id="@+id/btGoToOverview"
-        android:layout_below="@+id/btEditNotification"
+        android:layout_below="@+id/btGoogle"
         android:layout_alignRight="@+id/btEditNotification"
         android:layout_alignEnd="@+id/btEditNotification" />
->>>>>>> 7ec116dc6cc7c6074fc610d059569e4211f64ec8
 
 </RelativeLayout>
