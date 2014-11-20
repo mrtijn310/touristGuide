@@ -23,12 +23,9 @@ public class MyActivity extends Activity {
 
     int mId = 0;
     NotificationCompat.Builder mBuilder;
-<<<<<<< HEAD
     Button btEditPush, btMaps;
-=======
     Button btEditPush;
     Button btGoToOverview;
->>>>>>> 7ec116dc6cc7c6074fc610d059569e4211f64ec8
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
