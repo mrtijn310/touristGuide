@@ -26,4 +26,12 @@
         android:layout_alignRight="@+id/btnNewIntent"
         android:layout_alignEnd="@+id/btnNewIntent" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Google Maps Test"
+        android:id="@+id/btGoogle"
+        android:layout_below="@+id/btEditNotification"
+        android:layout_alignParentLeft="true" />
+
 </RelativeLayout>

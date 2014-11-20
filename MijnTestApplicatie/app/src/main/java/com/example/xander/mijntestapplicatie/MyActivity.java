@@ -23,14 +23,26 @@ public class MyActivity extends Activity {
 
     int mId = 0;
     NotificationCompat.Builder mBuilder;
-    Button btEditPush;
+    Button btEditPush, btMaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         pushNotificationButton();
-        Log.e("Status: ","onCreate");
+        btMaps = (Button) findViewById(R.id.btGoogle);
+        btMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMapsIntent();
+            }
+        });
+        Log.e("Status: ", "onCreate");
+    }
+
+    public void startMapsIntent(){
+        Intent mapsIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapsIntent);
     }
 
     Button btPush;
@@ -52,6 +64,7 @@ public class MyActivity extends Activity {
             }
         });
     }
+
 
     protected void onStart(){
         super.onStart();
