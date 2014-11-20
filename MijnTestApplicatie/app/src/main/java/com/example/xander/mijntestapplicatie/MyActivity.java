@@ -23,7 +23,12 @@ public class MyActivity extends Activity {
 
     int mId = 0;
     NotificationCompat.Builder mBuilder;
+<<<<<<< HEAD
     Button btEditPush, btMaps;
+=======
+    Button btEditPush;
+    Button btGoToOverview;
+>>>>>>> 7ec116dc6cc7c6074fc610d059569e4211f64ec8
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,15 @@ public class MyActivity extends Activity {
                 editNotification();
             }
         });
+
+        btGoToOverview = (Button) findViewById(R.id.btGoToOverview);
+        btGoToOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToOverview();
+            }
+        });
+
     }
 
 
@@ -92,7 +106,14 @@ public class MyActivity extends Activity {
         Log.e("Status: ","onDestroy");
     }
 
-    private void editNotification(){
+    private void goToOverview() {
+        Intent intent = new Intent(this, OverviewActivity.class);
+        startActivity(intent);
+
+    }
+
+
+        private void editNotification(){
         mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)

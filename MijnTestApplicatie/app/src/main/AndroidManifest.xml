@@ -27,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -38,6 +39,11 @@
         <activity
             android:name="com.example.xander.mijntestapplicatie.MapsActivity"
             android:label="@string/title_activity_maps" >
+=======
+        <activity
+            android:name="com.example.xander.mijntestapplicatie.OverviewActivity"
+            android:label="@string/title_activity_overview" >
+>>>>>>> 7ec116dc6cc7c6074fc610d059569e4211f64ec8
         </activity>
     </application>
 
