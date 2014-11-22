@@ -1,6 +1,7 @@
 package com.example.xander.mijntestapplicatie;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +16,9 @@ public class OverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
 
-        int[] categories = new int[] {1,2,3,4,5,6};
-        String[] titles = new String[] {"Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"};
-        String[] distances = new String[] {"11", "22", "33", "44", "55", "66"};
+        int[] categories = new int[]{1, 2, 3, 4, 5, 6};
+        String[] titles = new String[]{"Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"};
+        String[] distances = new String[]{"11", "22", "33", "44", "55", "66"};
         lvOverview = (ListView) findViewById(R.id.lvOverview);
         lvOverview.setAdapter(new lvItemAdapter(this, categories, titles, distances));
     }
@@ -36,14 +37,15 @@ public class OverviewActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            //noinspection SimplifiableIfStatement
+            case R.id.action_settings:
+                break;
+            case R.id.goToMaps:
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }
