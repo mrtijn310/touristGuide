@@ -4,10 +4,7 @@
     <string name="app_name">MijnTestApplicatie</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-<<<<<<< HEAD
     <string name="title_activity_maps">Map</string>
-=======
     <string name="title_activity_overview">OverviewActivity</string>
->>>>>>> 7ec116dc6cc7c6074fc610d059569e4211f64ec8
 
 </resources>
