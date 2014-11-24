@@ -1,4 +1,4 @@
-package com.example.xander.mijntestapplicatie;
+package nl.xannic.minor.touristguide;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.example.xander.mijntestapplicatie.R;
 
 public class OverviewActivity extends Activity {
 

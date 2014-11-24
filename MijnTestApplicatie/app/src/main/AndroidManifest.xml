@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="com.example.xander.mijntestapplicatie.MyActivity"
+            android:name="nl.xannic.minor.touristguide.MyActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,11 +38,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.example.xander.mijntestapplicatie.MapsActivity"
+            android:name="nl.xannic.minor.touristguide.MapsActivity"
             android:label="@string/title_activity_maps" />
 
         <activity
-            android:name="com.example.xander.mijntestapplicatie.OverviewActivity"
+            android:name="nl.xannic.minor.touristguide.OverviewActivity"
             android:label="@string/title_activity_overview" >
 
         </activity>

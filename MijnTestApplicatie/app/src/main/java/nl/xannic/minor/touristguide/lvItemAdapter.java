@@ -1,4 +1,4 @@
-package com.example.xander.mijntestapplicatie;
+package nl.xannic.minor.touristguide;
 
 import android.content.Context;
 import android.media.Image;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.xander.mijntestapplicatie.R;
 
 /**
  * Created by Martijn on 20-11-2014.
