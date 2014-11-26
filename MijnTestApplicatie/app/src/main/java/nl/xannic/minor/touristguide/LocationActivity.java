@@ -42,7 +42,6 @@ import nl.xannic.minor.data.Dataholder;
 
 public class LocationActivity extends Activity {
 
-    Button btGetLocation;
     LocationManager locManager;
     LocationListener locListener;
     TextView tvShowLocation;
@@ -51,12 +50,11 @@ public class LocationActivity extends Activity {
     double[] lats;
     double[] lons;
     String[] names;
-    DecimalFormat getFourDigits;
-    String notificationText;
     double lat;
     double lon;
     double newLat;
     double newLon;
+    String notificationText;
     String info;
 
 
@@ -69,7 +67,6 @@ public class LocationActivity extends Activity {
         locListener = new locationListener();
         locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 300000, 10, locListener);
         tvShowLocation = (TextView) findViewById(R.id.tvShowLocation);
-        getFourDigits = new DecimalFormat("0.0000");
         notificationText = "Notificatie";
 
     }
@@ -127,13 +124,6 @@ public class LocationActivity extends Activity {
         //51.818366, 4.654808       //Eigen huis
         //51.818400, 4.654671       //10 meter verder
 
-//        if(lat > 51.817 && lat < 51.820 && lon > 4.6545 && lon < 4.658 )
-//        {
-//            showNotification();
-//            info += "\nFinally home";
-//            tvShowLocation.setText(info);
-//        }
-
         for(int n = 0; n < names.length; n++)
             if(newLat + 0.001 > lats[n] && newLat - 0.001 < lats[n] && newLon + 0.001 > lons[n] && newLon - 0.001 < lons[n] )
             {
@@ -146,12 +136,6 @@ public class LocationActivity extends Activity {
         info += "\n" + "done";
         tvShowLocation.setText(info);
     }
-
-
-
-
-
-
 
     // locationListener
     public class locationListener implements LocationListener {
@@ -183,8 +167,6 @@ public class LocationActivity extends Activity {
             getCoordinates.execute("http://xannic.nl/api/json2.php");
         }
 
-
-
         @Override
         public void onProviderDisabled(String provider) {
             Toast.makeText(getApplicationContext(),
@@ -205,6 +187,7 @@ public class LocationActivity extends Activity {
         }
     }
 
+    // AsyncTask GetCoordinates
     public class GetCoordinates extends AsyncTask<String, Void, List<Data>> {
         Gson gson =  new Gson();
 
