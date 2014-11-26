@@ -25,6 +25,7 @@ public class MyActivity extends Activity {
     Button btMaps;
     Button btEditPush;
     Button btGoToOverview;
+    Button btGoToLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,13 @@ public class MyActivity extends Activity {
             }
         });
 
+        btGoToLocation = (Button) findViewById(R.id.btGoToLocation);
+        btGoToLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToLocation();
+            }
+        });
     }
 
 
@@ -104,19 +112,23 @@ public class MyActivity extends Activity {
     private void goToOverview() {
         Intent intent = new Intent(this, OverviewActivity.class);
         startActivity(intent);
+    }
 
+    private void goToLocation() {
+        Intent intent = new Intent(this, LocationActivity.class);
+        startActivity(intent);
     }
 
 
-        private void editNotification(){
+    private void editNotification(){
         mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("My edited notification, ")
-                        .setContentText("This Notification Is Modified").setAutoCancel(true);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(mId, mBuilder.build());
+            new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .setContentTitle("My edited notification, ")
+                    .setContentText("This Notification Is Modified").setAutoCancel(true);
+            NotificationManager mNotificationManager =
+            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(mId, mBuilder.build());
     }
 
     private void showNotification()

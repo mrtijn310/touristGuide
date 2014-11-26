@@ -58,5 +58,4 @@ public class PlaceMonumentMarkers extends AsyncTask<String, Void, List<Data>> {
             }
             return data;
         }
-
 }

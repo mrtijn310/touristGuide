@@ -33,7 +33,8 @@
         android:id="@+id/btGoogle"
         android:layout_below="@+id/btEditNotification"
         android:layout_alignParentLeft="true" />
-<Button
+
+    <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Go to overview"
@@ -41,5 +42,15 @@
         android:layout_below="@+id/btGoogle"
         android:layout_alignRight="@+id/btEditNotification"
         android:layout_alignEnd="@+id/btEditNotification" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Location"
+        android:id="@+id/btGoToLocation"
+        android:layout_below="@+id/btGoToOverview"
+        android:layout_alignRight="@+id/btEditNotification"
+        android:layout_alignEnd="@+id/btEditNotification" />
+
 
 </RelativeLayout>
