@@ -46,6 +46,10 @@
             android:name="nl.xannic.minor.touristguide.LocationActivity"
             android:label="@string/title_activity_location" >
         </activity>
+        <activity
+            android:name="nl.xannic.minor.touristguide.itemActivity"
+            android:label="@string/title_activity_item" >
+        </activity>
     </application>
 
 </manifest>
