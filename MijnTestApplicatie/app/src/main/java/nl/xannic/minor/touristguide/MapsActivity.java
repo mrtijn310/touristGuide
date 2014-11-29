@@ -24,6 +24,11 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        init();
+    }
+
+    public void init(){
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -32,10 +34,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import nl.xannic.minor.data.Data;
 import nl.xannic.minor.data.Dataholder;
@@ -56,6 +60,8 @@ public class LocationActivity extends Activity {
     double newLon;
     String notificationText;
     String info;
+    int locationUpdateTijdMiliseconden = 300000;
+    int locationUpdateMeter = 10;
 
 
     @Override
@@ -65,7 +71,7 @@ public class LocationActivity extends Activity {
 
         locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         locListener = new locationListener();
-        locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 300000, 10, locListener);
+        locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, locationUpdateTijdMiliseconden, locationUpdateMeter, locListener);
         tvShowLocation = (TextView) findViewById(R.id.tvShowLocation);
         notificationText = "Notificatie";
 
@@ -132,9 +138,21 @@ public class LocationActivity extends Activity {
                 info += "\n" + names[n];
                 tvShowLocation.setText(info);
             }
+        String cityName=null;
+        Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
+        List<Address>  addresses;
+        try {
+            addresses = gcd.getFromLocation(lat, lon, 1);
+            if (addresses.size() > 0)
+                System.out.println(addresses.get(0).getLocality());
+            cityName=addresses.get(0).getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        info += "\n" + "done";
+        info += "\n" + cityName;
         tvShowLocation.setText(info);
+
     }
 
     // locationListener
