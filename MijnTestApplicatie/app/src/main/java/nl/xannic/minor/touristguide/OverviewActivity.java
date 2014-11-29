@@ -10,7 +10,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xander.mijntestapplicatie.R;
@@ -67,7 +70,31 @@ public class OverviewActivity extends Activity {
         lvOverview = (ListView) findViewById(R.id.lvOverview);
         //lvOverview.setAdapter(new lvItemAdapter(this, categories, titles, distances));
 
+
+        lvOverview.setOnItemClickListener(new ListView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // selected item
+                String product = "ID: " + itemList.get(position).getID();
+                product += "\nName: " + itemList.get(position).getName();
+
+                //Toast.makeText(getApplicationContext(), product, Toast.LENGTH_SHORT).show();
+
+                // Launching new Activity on selecting single List Item
+                Intent intent = new Intent(getApplicationContext(), itemActivity.class);
+                // sending data to new activity
+                intent.putExtra("name", itemList.get(position).getName());
+                intent.putExtra("category", itemList.get(position).getCategory());
+                intent.putExtra("imageSource", itemList.get(position).getImageSource());
+
+                startActivity(intent);
+            }
+        });
+
     }
+
+
 
     private void makeList()
     {
@@ -133,7 +160,9 @@ public class OverviewActivity extends Activity {
             newLon /= 1000;
 
             GetCoordinates getCoordinates = new GetCoordinates();
-            getCoordinates.execute("http://xannic.nl/api/json2.php");
+            String url = "http://xannic.nl/api/json2.php";
+            url += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20WHERE%20ID%20=%20908";
+            getCoordinates.execute(url);
         }
 
         @Override
@@ -161,6 +190,8 @@ public class OverviewActivity extends Activity {
         Gson gson =  new Gson();
 
         protected void onPostExecute(List<Data> data) {
+
+            //Deze regel gaat het mis, zie ook regel 162 - 165, data == null 
             int size = data.size();
 
             IDs = new int[size];
@@ -194,10 +225,6 @@ public class OverviewActivity extends Activity {
 
                 Item item = new Item(ID, category, longitude, latitude, distance,  name, imageSource);
                 itemList.add(item);
-
-
-
-
 
             }
             Collections.sort(itemList, new Comparator() {
