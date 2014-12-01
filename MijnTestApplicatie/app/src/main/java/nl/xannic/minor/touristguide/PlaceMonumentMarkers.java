@@ -37,6 +37,7 @@ public class PlaceMonumentMarkers extends AsyncTask<String, Void, List<Data>> {
                 double lon = data.get(i).getLon();
 
                 mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(name));
+
             }
         }
 

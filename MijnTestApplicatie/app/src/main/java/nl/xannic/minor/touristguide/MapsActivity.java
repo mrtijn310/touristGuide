@@ -24,6 +24,11 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        init();
+    }
+
+    public void init(){
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,6 +102,7 @@ public class MapsActivity extends FragmentActivity {
 
     public void fillMapWithMonumentMarkers(){
         PlaceMonumentMarkers m = new PlaceMonumentMarkers(mMap);
+        //AIzaSyCXGUn5voNmr2gDIV-OXZYlZIY2Pug5wSs
         m.execute("http://xannic.nl/api/json2.php");
     }
 }

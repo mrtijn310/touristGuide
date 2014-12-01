@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ public class MyActivity extends Activity {
     Button btEditPush;
     Button btGoToOverview;
     Button btGoToLocation;
+    Button btRoutePlanTest;
+    Button btRoutePlanTest2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class MyActivity extends Activity {
         Log.e("Status: ", "onCreate");
     }
 
-    public void startMapsIntent(){
+    public void startMapsIntent() {
         Intent mapsIntent = new Intent(this, MapsActivity.class);
         startActivity(mapsIntent);
     }
@@ -79,6 +82,27 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 goToLocation();
+            }
+        });
+
+        btRoutePlanTest = (Button) findViewById(R.id.btRoutePlanTest);
+        btRoutePlanTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + 51.908 + "," + 4.43715 + "&daddr=" + 51.938 + "," + 4.4826+ "&mode=walking"));
+//                intent.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");
+//                startActivity(intent);
+                startMapsNow();
+            }
+        });
+        btRoutePlanTest2 = (Button) findViewById(R.id.btRoutePlanTest2);
+        btRoutePlanTest2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + 51.908 + "," + 4.43715 + "&daddr=" + 51.938 + "," + 4.4826+ "&mode=walking"));
+                intent.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");
+                startActivity(intent);
+//                startMapsNow();
             }
         });
     }
@@ -119,6 +143,10 @@ public class MyActivity extends Activity {
         startActivity(intent);
     }
 
+    private void startMapsNow(){
+        Intent intent = new Intent(this, PathGoogleMapActivity.class);
+        startActivity(intent);
+    }
 
     private void editNotification(){
         mBuilder =
