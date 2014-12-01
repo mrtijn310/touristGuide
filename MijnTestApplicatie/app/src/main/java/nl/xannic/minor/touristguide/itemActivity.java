@@ -32,7 +32,17 @@ public class itemActivity extends Activity {
         tvName.setText("Name: " + name);
         tvCategory.setText("Category: " + category);
         tvImageSource.setText("Image: " + imageSource);
-        ivImage.setImageURI((Uri.parse(imageSource)));
+        int loader = R.drawable.loader;
+        ImageLoader imageLoader = new ImageLoader(getApplicationContext());
+
+        // whenever you want to load an image from url
+        // call DisplayImage function
+        // url - image url to load
+        // loader - loader image, will be displayed before getting image
+        // image - ImageView
+        imageLoader.DisplayImage(imageSource, loader, ivImage);
+        //ivImage.setImageResource(R.drawable.purple);
+
     }
 
 

@@ -161,7 +161,7 @@ public class OverviewActivity extends Activity {
 
             GetCoordinates getCoordinates = new GetCoordinates();
             String url = "http://xannic.nl/api/json2.php";
-            url += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20WHERE%20ID%20=%20908";
+            url += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20LIMIT%2030";
             getCoordinates.execute(url);
         }
 
@@ -189,9 +189,28 @@ public class OverviewActivity extends Activity {
     public class GetCoordinates extends AsyncTask<String, Void, List<Data>> {
         Gson gson =  new Gson();
 
+        protected List<Data> doInBackground(String... params) {
+            Dataholder holder = null;
+            List<Data> data = null;
+            String output = null;
+            try {
+                DefaultHttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpPost = new HttpGet(params[0]);
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                output = EntityUtils.toString(httpEntity);
+                String json = output;
+                holder = gson.fromJson(json, Dataholder.class);
+                data = holder.getData();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
         protected void onPostExecute(List<Data> data) {
 
-            //Deze regel gaat het mis, zie ook regel 162 - 165, data == null 
+            //Deze regel gaat het mis, zie ook regel 162 - 165, data == null
             int size = data.size();
 
             IDs = new int[size];
@@ -238,23 +257,6 @@ public class OverviewActivity extends Activity {
             makeList();
         }
 
-        protected List<Data> doInBackground(String... params) {
-            Dataholder holder = null;
-            List<Data> data = null;
-            String output = null;
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpPost = new HttpGet(params[0]);
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                output = EntityUtils.toString(httpEntity);
-                String json = output;
-                holder = gson.fromJson(json, Dataholder.class);
-                data = holder.getData();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return data;
-        }
+
     }
 }

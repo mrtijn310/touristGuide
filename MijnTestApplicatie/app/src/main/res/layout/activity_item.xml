@@ -35,6 +35,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+
         android:id="@+id/ivImage"
         android:layout_below="@+id/tvImageSource"
         android:layout_centerHorizontal="true"
