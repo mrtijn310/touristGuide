@@ -102,6 +102,7 @@ public class MapsActivity extends FragmentActivity {
 
     public void fillMapWithMonumentMarkers(){
         PlaceMonumentMarkers m = new PlaceMonumentMarkers(mMap);
+        //AIzaSyCXGUn5voNmr2gDIV-OXZYlZIY2Pug5wSs
         m.execute("http://xannic.nl/api/json2.php");
     }
 }

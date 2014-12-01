@@ -8,5 +8,8 @@
     <string name="title_activity_overview">OverviewActivity</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_item">itemActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_test_route">TestRouteActivity</string>
+    <string name="title_activity_path_google_map">PathGoogleMapActivity</string>
 
 </resources>

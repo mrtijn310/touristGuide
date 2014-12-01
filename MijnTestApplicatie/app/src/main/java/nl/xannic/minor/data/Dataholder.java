@@ -10,10 +10,6 @@ import java.util.List;
 public class Dataholder {
     private List<Data> data;
 
-    Dataholder(){
-        this.data = data;
-    }
-
     public List<Data> getData(){
         return data;
     }
