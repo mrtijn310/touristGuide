@@ -182,7 +182,10 @@ public class LocationActivity extends Activity {
 
 
             GetCoordinates getCoordinates = new GetCoordinates();
-            getCoordinates.execute("http://xannic.nl/api/json2.php");
+            String sql = "http://xannic.nl/api/json2.php";
+            sql += "SELECT * FROM StatueAndMonuments ORDER BY abs(lat - ("+ lat +")) + abs( lon - ("+lon+")) LIMIT 30";
+
+            getCoordinates.execute(sql);
         }
 
         @Override
