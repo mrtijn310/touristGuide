@@ -5,25 +5,24 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -38,6 +37,7 @@ public class Main extends FragmentActivity
     private List<Data> data;
     private List<String> categories;
     private List<Category> categoriesFinal;
+    private Submit submit;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -101,6 +101,9 @@ public class Main extends FragmentActivity
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+                //TODO latlong actuele plaats
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
+                        10));
             }
         }
     }
@@ -113,9 +116,6 @@ public class Main extends FragmentActivity
      */
     private void setUpMap() {
         mMap.clear();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
-                10));
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(51.841928,4.925339)).title("test"));
         for(int i = 0; i < data.size(); i++) {
             double lat = data.get(i).getLat();
             double lon = data.get(i).getLon();
@@ -125,7 +125,20 @@ public class Main extends FragmentActivity
             String catName = categoriesFinal.get(catId-1).getName();
             if(categories!=null){
                 if (categories.contains(catName)) {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info));
+                    switch(catId){
+                        case 1:
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info).icon(BitmapDescriptorFactory
+                                    .fromResource(R.drawable.statue_and_monuments)));
+                            break;
+                        case 2:
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info).icon(BitmapDescriptorFactory
+                                    .fromResource(R.drawable.food_and_drinks)));
+                            break;
+                        case 3:
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info).icon(BitmapDescriptorFactory
+                                    .fromResource(R.drawable.event)));
+                            break;
+                    }
                 }
             }
         }
@@ -173,6 +186,10 @@ public class Main extends FragmentActivity
                 fragment = new CreateWhatsNearList();
                 Log.e("Fragment : ", "Lijst");
                 break;
+            case 5:
+                fragment = new CreateSubmit();
+                Log.e("Fragment : ", "Submit");
+                break;
         }
         if(fragment!=null) {
             FragmentManager fragmentManager = getFragmentManager();
@@ -197,7 +214,10 @@ public class Main extends FragmentActivity
                 mTitle = getString(R.string.title_section4);
                 break;
             case 5:
-                mTitle = getString(R.string.title_section4);
+                mTitle = getString(R.string.title_section5);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
     }
