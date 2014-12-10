@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -35,9 +36,12 @@ public class Main extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private GoogleMap mMap;
-    private List<Data> data;
+    private List<Item> item;
     private List<String> categories;
     private List<Category> categoriesFinal;
+    public static boolean goToSplashScreen = true;
+    Data data;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -52,6 +56,13 @@ public class Main extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (goToSplashScreen == true) {
+            Intent intentSplash = new Intent(this, SplashScreen.class);
+            startActivity(intentSplash);
+        }
+
+        data = new Data();
+
         //totdat we realtime data ophalen in splash screen
         createDummyData();
 
@@ -63,17 +74,20 @@ public class Main extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+
     }
 
     private void createDummyData(){
-        data = new ArrayList<Data>();
-        Data dataItem;
-        dataItem = new Data(1, "Kerk", "Prachtige kerk in Schelluinen", 51.841928, 4.925339, 1, 1, null);
-        data.add(dataItem);
-        dataItem = new Data(2, "Snackbar", "De lekkerste frietjes in Schelluinen", 51.841528, 4.825339, 1, 2, null);
-        data.add(dataItem);
-        dataItem = new Data(3, "Schaats Disco", "Iedereen tussen 12 en 18 zijn welkom", 51.831928, 4.725339, 1, 3, null);
-        data.add(dataItem);
+        item = new ArrayList<Item>();
+        Item dataItem;
+        dataItem = new Item(1, "Kerk", "Prachtige kerk in Schelluinen", 51.841928, 4.925339, 1, 1, null);
+        item.add(dataItem);
+        dataItem = new Item(2, "Snackbar", "De lekkerste frietjes in Schelluinen", 51.841528, 4.825339, 1, 2, null);
+        item.add(dataItem);
+        dataItem = new Item(3, "Schaats Disco", "Iedereen tussen 12 en 18 is welkom", 51.831928, 4.725339, 1, 3, null);
+        item.add(dataItem);
 
         categories = new ArrayList<String>();
         categories.add("Monumenten");
@@ -116,12 +130,12 @@ public class Main extends FragmentActivity
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
                 10));
         //mMap.addMarker(new MarkerOptions().position(new LatLng(51.841928,4.925339)).title("test"));
-        for(int i = 0; i < data.size(); i++) {
-            double lat = data.get(i).getLat();
-            double lon = data.get(i).getLon();
-            String title = data.get(i).getName();
-            String info = data.get(i).getInformation();
-            int catId = data.get(i).getCategoryID();
+        for(int i = 0; i < item.size(); i++) {
+            double lat = item.get(i).getLat();
+            double lon = item.get(i).getLon();
+            String title = item.get(i).getName();
+            String info = item.get(i).getInformation();
+            int catId = item.get(i).getCategoryID();
             String catName = categoriesFinal.get(catId-1).getName();
             if(categories!=null){
                 if (categories.contains(catName)) {
@@ -277,5 +291,4 @@ public class Main extends FragmentActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }

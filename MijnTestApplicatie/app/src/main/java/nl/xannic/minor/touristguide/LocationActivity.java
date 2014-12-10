@@ -63,7 +63,6 @@ public class LocationActivity extends Activity {
     int locationUpdateTijdMiliseconden = 300000;
     int locationUpdateMeter = 10;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +73,7 @@ public class LocationActivity extends Activity {
         locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, locationUpdateTijdMiliseconden, locationUpdateMeter, locListener);
         tvShowLocation = (TextView) findViewById(R.id.tvShowLocation);
         notificationText = "Notificatie";
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,7 +121,7 @@ public class LocationActivity extends Activity {
         mNotificationManager.notify(notificationID, notificatitionBuilder.build());
     }
 
-    private void  checkLocations()
+    private void checkLocations()
     {
         //51.818366, 4.654808       //Eigen huis
         //51.818400, 4.654671       //10 meter verder
