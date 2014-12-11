@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" >
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,14 +40,16 @@
         android:layout_width="fill_parent"
         android:layout_height="250dp"
         android:id="@+id/ivPicture"
-        android:layout_below="@+id/spinnerCategorie"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/btPicture"
+        android:layout_below="@+id/etPlaceName"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take Picture"
+        android:text="Maak een foto"
         android:id="@+id/btPicture"
         android:layout_above="@+id/btSubmit"
         android:layout_alignParentLeft="true"
@@ -61,5 +62,41 @@
         android:id="@+id/btSubmit"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Informatie"
+        android:id="@+id/tvInfo"
+        android:layout_below="@+id/spinnerCategorie"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:id="@+id/etInfo"
+        android:hint="Vul hier meer informatie in"
+        android:layout_below="@+id/tvInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Naam van de stad of dorp"
+        android:id="@+id/tvPlaceName"
+        android:layout_below="@+id/etInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etPlaceName"
+        android:layout_below="@+id/tvPlaceName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

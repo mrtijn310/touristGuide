@@ -47,8 +47,6 @@ public class Main extends FragmentActivity
 
     Data data;
 
-    private Submit submit;
-
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */

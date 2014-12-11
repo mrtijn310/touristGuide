@@ -31,7 +31,7 @@ import java.util.List;
 public class CreateSubmit extends android.app.Fragment{
     TextView tvNaam, tvCategorie;
     Spinner spinnerCategorie;
-    EditText etNaam;
+    EditText etNaam, etInfo, etPlaceName;
     List<String> list;
     ImageView ivPicture;
     Button btPicture, btSubmit;
@@ -61,7 +61,31 @@ public class CreateSubmit extends android.app.Fragment{
             }
         });
         ivPicture = (ImageView) rootView.findViewById(R.id.ivPicture);
+        etInfo = (EditText) rootView.findViewById(R.id.etInfo);
+        etPlaceName = (EditText) rootView.findViewById(R.id.etPlaceName);
+        btSubmit = (Button) rootView.findViewById(R.id.btSubmit);
+        btSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertIntoDB();
+            }
+        });
         return rootView;
+    }
+
+    public void insertIntoDB(){
+        String url = "http://www.xannic.nl/api/insertdata.php";
+        String name = etNaam.getText().toString();
+        String info = etInfo.getText().toString();
+        String stringLat = String.valueOf(Data.lat);
+        String stringLon = String.valueOf(Data.lon);
+        String cityName = etPlaceName.getText().toString();
+        long i = spinnerCategorie.getSelectedItemId()+1;
+        String categoryId = Long.toString(i);
+        String imgUrl = "null";
+        url+= "?name=" + name+"&info="+info+"&lat=" + stringLat+"&lon=" + stringLon+"&cityname=" + cityName+"&categoryid=" + categoryId+"&imageurl"+imgUrl;
+        InsertMyData d = new InsertMyData();
+        d.execute(url);
     }
 
     private Uri fileUri;
