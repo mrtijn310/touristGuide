@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,7 +45,6 @@ public class Main extends FragmentActivity
     private List<String> categories;
     private List<Category> categoriesFinal;
 
-    public static boolean goToSplashScreen = true;
     Data data;
 
     private Submit submit;
@@ -63,10 +63,10 @@ public class Main extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (goToSplashScreen == true) {
-            Intent intentSplash = new Intent(this, SplashScreen.class);
-            startActivity(intentSplash);
-        }
+//        if (goToSplashScreen == true) {
+//            Intent intentSplash = new Intent(this, SplashScreen.class);
+//            startActivity(intentSplash);
+//        }
 
         data = new Data();
 
@@ -81,20 +81,19 @@ public class Main extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-
-
     }
 
     private void createDummyData(){
-        item = new ArrayList<Item>();
-        Item dataItem;
-        dataItem = new Item(1, "Kerk", "Prachtige kerk in Schelluinen", 51.841928, 4.925339, 1, 1, null);
-        item.add(dataItem);
-        dataItem = new Item(2, "Snackbar", "De lekkerste frietjes in Schelluinen", 51.841528, 4.825339, 1, 2, null);
-        item.add(dataItem);
-        dataItem = new Item(3, "Schaats Disco", "Iedereen tussen 12 en 18 is welkom", 51.831928, 4.725339, 1, 3, null);
-        item.add(dataItem);
+//        item = new ArrayList<Item>();
+//        Item dataItem;
+//        dataItem = new Item(1, "Kerk", "Prachtige kerk in Schelluinen", 51.841928, 4.925339, 1, 1, null);
+//        item.add(dataItem);
+//        dataItem = new Item(2, "Snackbar", "De lekkerste frietjes in Schelluinen", 51.841528, 4.825339, 1, 2, null);
+//        item.add(dataItem);
+//        dataItem = new Item(3, "Schaats Disco", "Iedereen tussen 12 en 18 is welkom", 51.831928, 4.725339, 1, 3, null);
+//        item.add(dataItem);
+
+        item = Data.itemList;
 
         categories = new ArrayList<String>();
         categories.add("Monumenten");
@@ -122,8 +121,9 @@ public class Main extends FragmentActivity
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+                mMap.setMyLocationEnabled(true);
                 //TODO latlong actuele plaats
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Data.lat, Data.lon),
                         10));
             }
         }
@@ -145,7 +145,6 @@ public class Main extends FragmentActivity
             double lat = item.get(i).getLat();
             double lon = item.get(i).getLon();
             String title = item.get(i).getName();
-            String info = item.get(i).getInformation();
             int catId = item.get(i).getCategoryID();
 
             String catName = categoriesFinal.get(catId-1).getName();
@@ -153,15 +152,15 @@ public class Main extends FragmentActivity
                 if (categories.contains(catName)) {
                     switch(catId){
                         case 1:
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info).icon(BitmapDescriptorFactory
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
                                     .fromResource(R.drawable.statue_and_monuments)));
                             break;
                         case 2:
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info).icon(BitmapDescriptorFactory
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
                                     .fromResource(R.drawable.food_and_drinks)));
                             break;
                         case 3:
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).snippet(info).icon(BitmapDescriptorFactory
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
                                     .fromResource(R.drawable.event)));
                             break;
                     }

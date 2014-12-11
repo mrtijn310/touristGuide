@@ -11,6 +11,7 @@ public class Data {
 
     public static ArrayList<Item> itemList = new ArrayList<Item>();
     public static String cityName = "City";
+    public static double lat, lon;
 
     public ArrayList getSortedList(ArrayList<Item> list) {
         Collections.sort(list, new Comparator() {

@@ -51,31 +51,58 @@ public class SplashScreen extends Activity {
     ImageView imgSplash;
     int locationUpdateTimeMilliseconds = 300000;
     int locationUpdateMeter = 10;
+    boolean ISTEST = false;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        locListener = new locationListener();
-        locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-
-        if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-            ActionBar actionBar = getActionBar();
-        }
-
-        //Show Splashscreen
         imgSplash = (ImageView) findViewById(R.id.imgSplash);
         imgSplash.setImageResource(R.drawable.splash);
-        Main.goToSplashScreen = false;
-        //goToMain();
+
+        if (ISTEST)
+        {
+            ArrayList<Item> testItems = new ArrayList<Item>();
+            Item dataItem;
+            //int ID, int CategoryID, double lon, double lat, double distance, String Name , String Image
+            dataItem = new Item(1, 1, 51.841928, 4.925339, 1.2, "Prachtige kerk in Schelluinen", "");
+            testItems.add(dataItem);
+            dataItem = new Item(2, 2, 51.841528, 4.825339, 3.4, "De lekkerste frietjes in Schelluinen", "");
+            testItems.add(dataItem);
+            dataItem = new Item(3, 3, 51.831928, 4.725339, 5.6, "Iedereen tussen 12 en 18 is welkom", "");
+            testItems.add(dataItem);
+
+            Data data  = new Data();
+            Data.cityName = "City";
+            Data.itemList = testItems;
+            Data.lat = 51.9166667;
+            Data.lon = 4.5;
+            goToMain();
+        }
+
+        else
+        {
+            locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locListener = new locationListener();
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
+
+            if (Build.VERSION.SDK_INT < 16) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            } else {
+                View decorView = getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+                ActionBar actionBar = getActionBar();
+            }
+
+//            //Show Splashscreen
+//            imgSplash = (ImageView) findViewById(R.id.imgSplash);
+//            imgSplash.setImageResource(R.drawable.splash);
+//            Main.goToSplashScreen = false;
+//            //goToMain();
+        }
     }
 
     @Override
@@ -122,7 +149,7 @@ public class SplashScreen extends Activity {
             newLon /= 1000;
 
             GetCoordinates getCoordinates = new GetCoordinates();
-            String sql = "http://xannic.nl/api/json3.php";
+            String sql = "http://xannic.nl/api/json2.php";
             //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
             //sql += " ORDER BY abs(lat - ("+ lat +")) + abs( lon - ("+lon+")) LIMIT 30";
 
@@ -190,6 +217,8 @@ public class SplashScreen extends Activity {
             Data data  = new Data();
             Data.cityName = "City";
             Data.itemList = (ArrayList<Item>)items;
+            Data.lat = newLat;
+            Data.lon = newLon;
             goToMain();
             return items;
         }

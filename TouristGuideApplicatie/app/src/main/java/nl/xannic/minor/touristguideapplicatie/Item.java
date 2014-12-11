@@ -20,7 +20,7 @@ public class Item {
         this.Image = Image;
     }
 
-    Item(int ID, int  CategoryID, double lon, double lat, double distance, String Name , String Image){
+    Item(int ID, int CategoryID, double lat, double lon, double distance, String Name , String Image){
         this.ID = ID;
         this.CategoryID = CategoryID;
         this.lon = lon;
