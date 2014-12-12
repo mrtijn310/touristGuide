@@ -44,6 +44,7 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/btPicture"
         android:layout_below="@+id/etPlaceName"
+        android:visibility="gone"
         />
 
     <Button
@@ -53,7 +54,8 @@
         android:id="@+id/btPicture"
         android:layout_above="@+id/btSubmit"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
@@ -61,7 +63,8 @@
         android:text="Submit"
         android:id="@+id/btSubmit"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -70,7 +73,8 @@
         android:id="@+id/tvInfo"
         android:layout_below="@+id/spinnerCategorie"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -80,7 +84,8 @@
         android:hint="Vul hier meer informatie in"
         android:layout_below="@+id/tvInfo"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -89,7 +94,8 @@
         android:id="@+id/tvPlaceName"
         android:layout_below="@+id/etInfo"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -97,6 +103,34 @@
         android:id="@+id/etPlaceName"
         android:layout_below="@+id/tvPlaceName"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Vul hier de website in:"
+        android:id="@+id/tvWebsite"
+        android:layout_below="@+id/etPlaceName"
+        android:layout_toRightOf="@+id/ivPicture"
+        android:layout_toEndOf="@+id/ivPicture" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etWebsite"
+        android:hint="Vul de website in"
+        android:layout_below="@+id/tvWebsite"
+        android:layout_toRightOf="@+id/ivPicture"
+        android:layout_toEndOf="@+id/ivPicture" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Openingstijd:"
+        android:id="@+id/tvOpeningstijd"
+        android:layout_below="@+id/etWebsite"
+        android:layout_toRightOf="@+id/ivPicture"
+        android:layout_toEndOf="@+id/ivPicture" />
 
 </RelativeLayout>

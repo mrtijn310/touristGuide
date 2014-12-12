@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,13 +30,15 @@ import java.util.List;
  * Created by Xander on 12/5/2014.
  */
 public class CreateSubmit extends android.app.Fragment{
-    TextView tvNaam, tvCategorie;
+    TextView tvNaam, tvCategorie, tvPlace,tvInfo;
     Spinner spinnerCategorie;
     EditText etNaam, etInfo, etPlaceName;
     List<String> list;
     ImageView ivPicture;
     Button btPicture, btSubmit;
     View rootView;
+    InsertMyData d;
+    String url;
 
     public CreateSubmit() {
     }
@@ -48,10 +51,37 @@ public class CreateSubmit extends android.app.Fragment{
         tvCategorie = (TextView) rootView.findViewById(R.id.tvCategorie);
         spinnerCategorie = (Spinner) rootView.findViewById(R.id.spinnerCategorie);
         etNaam = (EditText) rootView.findViewById(R.id.etNaam);
+        d = new InsertMyData();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(rootView.getContext(),
         R.array.categorieën, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategorie.setAdapter(adapter);
+        spinnerCategorie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0:
+                        clearView();
+                        setMonumentView();
+                        addMonument();
+                        break;
+                    case 1:
+                        clearView();
+                        setFoodAndDrinkView();
+//                        addFoodAndDrink();
+                        break;
+                    case 2:
+                        clearView();
+//                        setMuseaView();
+//                        addMusea();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         btPicture = (Button) rootView.findViewById(R.id.btPicture);
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         btPicture.setOnClickListener(new View.OnClickListener() {
@@ -70,11 +100,40 @@ public class CreateSubmit extends android.app.Fragment{
                 insertIntoDB();
             }
         });
+        tvPlace = (TextView) rootView.findViewById(R.id.tvPlaceName);
+        tvInfo = (TextView) rootView.findViewById(R.id.tvInfo);
         return rootView;
     }
 
-    public void insertIntoDB(){
-        String url = "http://www.xannic.nl/api/insertdata.php";
+    public void clearView(){
+        etInfo.setVisibility(View.GONE);
+        etPlaceName.setVisibility(View.GONE);
+        tvPlace.setVisibility(View.GONE);
+        tvInfo.setVisibility(View.GONE);
+        btSubmit.setVisibility(View.GONE);
+        btPicture.setVisibility(View.GONE);
+        etPlaceName.setText("");
+        etInfo.setText("");
+    }
+
+    public void setFoodAndDrinkView(){
+        tvPlace.setVisibility(View.VISIBLE);
+        etPlaceName.setVisibility(View.VISIBLE);
+        tvInfo.setVisibility(View.VISIBLE);
+        etInfo.setVisibility(View.VISIBLE);
+
+    }
+
+    public void setMonumentView(){
+        tvInfo.setVisibility(View.VISIBLE);
+        etInfo.setVisibility(View.VISIBLE);
+        tvPlace.setVisibility(View.VISIBLE);
+        btPicture.setVisibility(View.VISIBLE);
+        btSubmit.setVisibility(View.VISIBLE);
+    }
+
+    public void addMonument(){
+        url = "http://www.xannic.nl/api/insertdata.php";
         String name = etNaam.getText().toString();
         String info = etInfo.getText().toString();
         String stringLat = String.valueOf(Data.lat);
@@ -84,8 +143,11 @@ public class CreateSubmit extends android.app.Fragment{
         String categoryId = Long.toString(i);
         String imgUrl = "null";
         url+= "?name=" + name+"&info="+info+"&lat=" + stringLat+"&lon=" + stringLon+"&cityname=" + cityName+"&categoryid=" + categoryId+"&imageurl"+imgUrl;
-        InsertMyData d = new InsertMyData();
+    }
+
+    public void insertIntoDB(){
         d.execute(url);
+        //go back to map of tnx screen
     }
 
     private Uri fileUri;
