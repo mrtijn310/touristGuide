@@ -1,6 +1,7 @@
 package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -63,7 +64,6 @@ public class CreateSubmit extends android.app.Fragment{
                     case 0:
                         clearView();
                         setMonumentView();
-                        addMonument();
                         break;
                     case 1:
                         clearView();
@@ -145,7 +145,21 @@ public class CreateSubmit extends android.app.Fragment{
         url+= "?name=" + name+"&info="+info+"&lat=" + stringLat+"&lon=" + stringLon+"&cityname=" + cityName+"&categoryid=" + categoryId+"&imageurl"+imgUrl;
     }
 
+    public void locationGetter() {
+        // Here I want to send this ArrayList values into the call
+        // method in activity class.
+
+
+    }
+
     public void insertIntoDB(){
+        long longCat = spinnerCategorie.getSelectedItemId();
+        int i = (int) longCat;
+        switch(i){
+            case 0:
+                addMonument();
+                break;
+        }
         d.execute(url);
         //go back to map of tnx screen
     }

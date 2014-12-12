@@ -24,12 +24,12 @@ public class lvItemAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
 
-    public lvItemAdapter(Context context, int[] categories, String[] titles, String[] distances) {
+    public lvItemAdapter(Context context, int[] categories, String[] titles) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.categories = categories;
         this.titles = titles;
-        this.distances = distances;
+        //this.distances = distances;
 
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,7 +63,7 @@ public class lvItemAdapter extends BaseAdapter {
 
         ImageView ivColorImage = (ImageView) vi.findViewById(R.id.ivColorImage);
         TextView tvTitle = (TextView) vi.findViewById(R.id.tvTitle);
-        TextView tvDistance = (TextView) vi.findViewById(R.id.tvDistance);
+        //TextView tvDistance = (TextView) vi.findViewById(R.id.tvDistance);
 
         switch(categories[position]) {
 
@@ -92,7 +92,7 @@ public class lvItemAdapter extends BaseAdapter {
         }
 
         tvTitle.setText(titles[position]);
-        tvDistance.setText(distances[position]);
+        //tvDistance.setText(distances[position]);
 
 
 

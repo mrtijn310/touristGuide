@@ -79,13 +79,10 @@ public class CreateWhatsNearList extends Fragment {
         names = new String[size];
         stringDist = new String[10];
 
-
-
-
         for(int n = 0; n < size; n++) {
             categories[n] = itemList.get(n).getCategoryID();
             names[n] = itemList.get(n).getName();
-            stringDist[n] = Double.toString(itemList.get(n).getDistance());
+        //    stringDist[n] = Double.toString(itemList.get(n).getDistance());
         }
 
         int[] catttt = new int[]{1, 2, 3, 4, 5, 6};
@@ -94,7 +91,7 @@ public class CreateWhatsNearList extends Fragment {
 
         lvOverview = (ListView) rootView.findViewById(R.id.lvOverview);
 
-        lvItemAdapter itemAdapter = new lvItemAdapter(context, categories, names, stringDist);
+        lvItemAdapter itemAdapter = new lvItemAdapter(context, categories, names);
         lvOverview.setAdapter(itemAdapter);
 
 
