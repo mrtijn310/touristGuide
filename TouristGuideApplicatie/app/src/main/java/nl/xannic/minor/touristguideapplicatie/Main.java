@@ -66,6 +66,7 @@ public class Main extends FragmentActivity
 //            startActivity(intentSplash);
 //        }
 
+
         data = new Data();
 
         //totdat we realtime data ophalen in splash screen

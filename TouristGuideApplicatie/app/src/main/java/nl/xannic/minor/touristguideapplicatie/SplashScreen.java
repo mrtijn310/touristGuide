@@ -64,6 +64,7 @@ public class SplashScreen extends Activity {
 
         imgSplash = (ImageView) findViewById(R.id.imgSplash);
         imgSplash.setImageResource(R.drawable.splash);
+        Config.context = this;
 
         if (ISTEST)
         {
@@ -87,135 +88,130 @@ public class SplashScreen extends Activity {
 
         else
         {
-            locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locListener = new locationListener();
-            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-
-
-//            //Show Splashscreen
-//            imgSplash = (ImageView) findViewById(R.id.imgSplash);
-//            imgSplash.setImageResource(R.drawable.splash);
-//            Main.goToSplashScreen = false;
-//            //goToMain();
+            Data data = new Data();
+            data.getLocation();
+            goToMain();
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.splash_screen, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+//    public void getLocation() {
+//        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        locListener = new locationListener();
+//        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
+//    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.splash_screen, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//
     public void goToMain() {
         Intent intentMain = new Intent(this, Main.class);
         intentMain.putExtra("goToSplashScreen", "false");
         startActivity(intentMain);
     }
-
-
-
-
-
-
-    // locationListener
-    public class locationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location loc) {
-            lat = loc.getLatitude();
-            lon = loc.getLongitude();
-
-            newLat = lat * 1000;
-            newLat = Math.round(newLat);
-            newLat /= 1000;
-
-            newLon = lon * 1000;
-            newLon = Math.round(newLon);
-            newLon /= 1000;
-
-            GetCoordinates getCoordinates = new GetCoordinates();
-            String sql = "http://xannic.nl/api/json2.php";
-            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
-            //sql += " ORDER BY abs(lat - ("+ lat +")) + abs( lon - ("+lon+")) LIMIT 30";
-
-            getCoordinates.execute(sql);
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-//            Toast.makeText(getApplicationContext(),
-//                    "Gps Disabled",
-//                    Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-//            Toast.makeText(getApplicationContext(),
-//                    "Gps Enabled",
-//                    Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-    }
-
-    // AsyncTask GetCoordinates
-    public class GetCoordinates extends AsyncTask<String, Void, List<Item>> {
-        Gson gson =  new Gson();
-
-        protected void onPostExecute(List<Item> items) {
-            int size = items.size();
-
-            lats = new double[size];
-            lons = new double[size];
-            names = new String[size];
-
-            for(int i = 0;  i < items.size(); i++){
-                String name = items.get(i).getName();
-                double lat = items.get(i).getLat();
-                double lon = items.get(i).getLon();
-
-                names[i] = name;
-                lats[i] = lat;
-                lons[i] = lon;
-            }
-        }
-
-        protected List<Item> doInBackground(String... params) {
-            ItemHolder holder = null;
-            List<Item> items = null;
-            String output = null;
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpPost = new HttpGet(params[0]);
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                output = EntityUtils.toString(httpEntity);
-                String json = output;
-                holder = gson.fromJson(json, ItemHolder.class);
-                items = holder.getItem();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Data data  = new Data();
-            Data.cityName = "City";
-            Data.itemList = (ArrayList<Item>)items;
-            Data.lat = newLat;
-            Data.lon = newLon;
-            goToMain();
-            return items;
-        }
-    }
+//
+//    // locationListener
+//    public class locationListener implements LocationListener {
+//
+//        @Override
+//        public void onLocationChanged(Location loc) {
+//            lat = loc.getLatitude();
+//            lon = loc.getLongitude();
+//
+//            newLat = lat * 1000;
+//            newLat = Math.round(newLat);
+//            newLat /= 1000;
+//
+//            newLon = lon * 1000;
+//            newLon = Math.round(newLon);
+//            newLon /= 1000;
+//
+//            GetCoordinates getCoordinates = new GetCoordinates();
+//            String sql = "http://xannic.nl/api/json2.php";
+//            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20LIMIT%2030";
+//            //sql += "?q=SELECT * FROM StatueAndMonuments";
+//            //sql += " ORDER BY abs(lat - ("+ lat +")) + abs( lon - ("+lon+")) LIMIT 30";
+//
+//            getCoordinates.execute(sql);
+//        }
+//
+//        @Override
+//        public void onProviderDisabled(String provider) {
+////            Toast.makeText(getApplicationContext(),
+////                    "Gps Disabled",
+////                    Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onProviderEnabled(String provider) {
+////            Toast.makeText(getApplicationContext(),
+////                    "Gps Enabled",
+////                    Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//        }
+//    }
+//
+//    // AsyncTask GetCoordinates
+//    public class GetCoordinates extends AsyncTask<String, Void, List<Item>> {
+//        Gson gson =  new Gson();
+//
+//        protected void onPostExecute(List<Item> items) {
+//            int size = items.size();
+//
+//            lats = new double[size];
+//            lons = new double[size];
+//            names = new String[size];
+//
+//            for(int i = 0;  i < items.size(); i++){
+//                String name = items.get(i).getName();
+//                double lat = items.get(i).getLat();
+//                double lon = items.get(i).getLon();
+//
+//                names[i] = name;
+//                lats[i] = lat;
+//                lons[i] = lon;
+//            }
+//        }
+//
+//        protected List<Item> doInBackground(String... params) {
+//            ItemHolder holder = null;
+//            List<Item> items = null;
+//            String output = null;
+//            try {
+//                DefaultHttpClient httpClient = new DefaultHttpClient();
+//                HttpGet httpGet = new HttpGet(params[0]);
+//                HttpResponse httpResponse = httpClient.execute(httpGet);
+//                HttpEntity httpEntity = httpResponse.getEntity();
+//                output = EntityUtils.toString(httpEntity);
+//                String json = output;
+//                holder = gson.fromJson(json, ItemHolder.class);
+//                items = holder.getItem();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            Data data  = new Data();
+//            Data.cityName = "City";
+//            Data.itemList = (ArrayList<Item>)items;
+//            Data.lat = newLat;
+//            Data.lon = newLon;
+//            goToMain();
+//            return items;
+//        }
+//    }
 }

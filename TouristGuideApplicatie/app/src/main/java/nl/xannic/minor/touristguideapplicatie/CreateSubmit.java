@@ -1,6 +1,7 @@
 package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -36,6 +37,7 @@ public class CreateSubmit extends android.app.Fragment{
     ImageView ivPicture;
     Button btPicture, btSubmit;
     View rootView;
+    Context context;
 
     public CreateSubmit() {
     }
@@ -70,7 +72,16 @@ public class CreateSubmit extends android.app.Fragment{
                 insertIntoDB();
             }
         });
+
+
         return rootView;
+    }
+
+    public void locationGetter() {
+        // Here I want to send this ArrayList values into the call
+        // method in activity class.
+
+
     }
 
     public void insertIntoDB(){
