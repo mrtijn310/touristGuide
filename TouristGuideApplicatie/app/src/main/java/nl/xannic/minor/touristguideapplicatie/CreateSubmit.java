@@ -37,9 +37,9 @@ import java.util.List;
  * Created by Xander on 12/5/2014.
  */
 public class CreateSubmit extends android.app.Fragment {
-    TextView tvNaam, tvCategorie, tvPlace, tvInfo;
+    TextView tvNaam, tvCategorie, tvPlace, tvInfo, tvWebsite;
     Spinner spinnerCategorie;
-    EditText etNaam, etInfo, etPlaceName;
+    EditText etNaam, etInfo, etPlaceName, etWebsite;
     List<String> list;
     ImageView ivPicture;
     Button btPicture, btSubmit;
@@ -59,7 +59,6 @@ public class CreateSubmit extends android.app.Fragment {
         tvCategorie = (TextView) rootView.findViewById(R.id.tvCategorie);
         spinnerCategorie = (Spinner) rootView.findViewById(R.id.spinnerCategorie);
         etNaam = (EditText) rootView.findViewById(R.id.etNaam);
-        d = new InsertMyData();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(rootView.getContext(),
                 R.array.categorieën, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -75,12 +74,15 @@ public class CreateSubmit extends android.app.Fragment {
                     case 1:
                         clearView();
                         setFoodAndDrinkView();
-//                        addFoodAndDrink();
                         break;
                     case 2:
                         clearView();
-//                        setMuseaView();
-//                        addMusea();
+                        setEventsView();
+                        break;
+                    case 3:
+                        clearView();
+                        setMuseaView();
+                        break;
                 }
             }
 
@@ -108,10 +110,13 @@ public class CreateSubmit extends android.app.Fragment {
                     up.execute();
                 }
                 insertIntoDB();
+
             }
         });
         tvPlace = (TextView) rootView.findViewById(R.id.tvPlaceName);
         tvInfo = (TextView) rootView.findViewById(R.id.tvInfo);
+        tvWebsite = (TextView) rootView.findViewById(R.id.tvWebsite);
+        etWebsite = (EditText) rootView.findViewById(R.id.etWebsite);
         return rootView;
     }
 
@@ -120,10 +125,14 @@ public class CreateSubmit extends android.app.Fragment {
         etPlaceName.setVisibility(View.GONE);
         tvPlace.setVisibility(View.GONE);
         tvInfo.setVisibility(View.GONE);
-        btSubmit.setVisibility(View.GONE);
-        btPicture.setVisibility(View.GONE);
         etPlaceName.setText("");
         etInfo.setText("");
+        tvWebsite.setVisibility(View.GONE);
+        etWebsite.setVisibility(View.GONE);
+        etWebsite.setText("");
+        etWebsite.setHint("www.example.nl");
+        btPicture.setVisibility(View.VISIBLE);
+        btSubmit.setVisibility(View.VISIBLE);
     }
 
     public void setFoodAndDrinkView() {
@@ -131,6 +140,88 @@ public class CreateSubmit extends android.app.Fragment {
         etPlaceName.setVisibility(View.VISIBLE);
         tvInfo.setVisibility(View.VISIBLE);
         etInfo.setVisibility(View.VISIBLE);
+        tvWebsite.setVisibility(View.VISIBLE);
+        etWebsite.setVisibility(View.VISIBLE);
+    }
+
+    public void setMuseaView() {
+        tvPlace.setVisibility(View.VISIBLE);
+        etPlaceName.setVisibility(View.VISIBLE);
+        tvInfo.setVisibility(View.VISIBLE);
+        etInfo.setVisibility(View.VISIBLE);
+        tvWebsite.setVisibility(View.VISIBLE);
+        etWebsite.setVisibility(View.VISIBLE);
+    }
+
+    public void setEventsView() {
+        tvPlace.setVisibility(View.VISIBLE);
+        etPlaceName.setVisibility(View.VISIBLE);
+        tvInfo.setVisibility(View.VISIBLE);
+        etInfo.setVisibility(View.VISIBLE);
+        tvWebsite.setVisibility(View.VISIBLE);
+        etWebsite.setVisibility(View.VISIBLE);
+    }
+
+    public void addFoodAndDrink() {
+        url = "http://www.xannic.nl/api/insertdata.php";
+        String name = etNaam.getText().toString();
+        String info = etInfo.getText().toString();
+        String stringLat = String.valueOf(Data.lat);
+        String stringLon = String.valueOf(Data.lon);
+        String cityName = etPlaceName.getText().toString();
+        long i = spinnerCategorie.getSelectedItemId() + 1;
+        String categoryId = Long.toString(i);
+        String website = etWebsite.getText().toString();
+        String imgUrl;
+        if(takenpicture) {
+            imgUrl = "http://www.xannic.nl/api/uploads/" +fileUri.getLastPathSegment();
+        }
+        else{
+            imgUrl = null;
+        }
+        url += "?name=" + name + "&info=" + info + "&lat=" + stringLat + "&lon=" + stringLon + "&cityname=" + cityName + "&website=" + website +"&categoryid=" + categoryId + "&imageurl=" + imgUrl;
+
+    }
+
+    public void addEvents() {
+        url = "http://www.xannic.nl/api/insertdata.php";
+        String name = etNaam.getText().toString();
+        String info = etInfo.getText().toString();
+        String stringLat = String.valueOf(Data.lat);
+        String stringLon = String.valueOf(Data.lon);
+        String cityName = etPlaceName.getText().toString();
+        long i = spinnerCategorie.getSelectedItemId() + 1;
+        String categoryId = Long.toString(i);
+        String website = etWebsite.getText().toString();
+        String imgUrl;
+        if(takenpicture) {
+            imgUrl = "http://www.xannic.nl/api/uploads/" +fileUri.getLastPathSegment();
+        }
+        else{
+            imgUrl = null;
+        }
+        url += "?name=" + name + "&info=" + info + "&lat=" + stringLat + "&lon=" + stringLon + "&cityname=" + cityName + "&website=" + website +"&categoryid=" + categoryId + "&imageurl=" + imgUrl;
+
+    }
+
+    public void addMusea() {
+        url = "http://www.xannic.nl/api/insertdata.php";
+        String name = etNaam.getText().toString();
+        String info = etInfo.getText().toString();
+        String stringLat = String.valueOf(Data.lat);
+        String stringLon = String.valueOf(Data.lon);
+        String cityName = etPlaceName.getText().toString();
+        long i = spinnerCategorie.getSelectedItemId() + 1;
+        String categoryId = Long.toString(i);
+        String website = etWebsite.getText().toString();
+        String imgUrl;
+        if(takenpicture) {
+            imgUrl = "http://www.xannic.nl/api/uploads/" +fileUri.getLastPathSegment();
+        }
+        else{
+            imgUrl = null;
+        }
+        url += "?name=" + name + "&info=" + info + "&lat=" + stringLat + "&lon=" + stringLon + "&cityname=" + cityName + "&website=" + website +"&categoryid=" + categoryId + "&imageurl=" + imgUrl;
 
     }
 
@@ -139,9 +230,7 @@ public class CreateSubmit extends android.app.Fragment {
         etInfo.setVisibility(View.VISIBLE);
         tvPlace.setVisibility(View.VISIBLE);
         etPlaceName.setVisibility(View.VISIBLE);
-        btPicture.setVisibility(View.VISIBLE);
-        btSubmit.setVisibility(View.VISIBLE);
-        ivPicture.setVisibility(View.VISIBLE);
+        //ivPicture.setVisibility(View.VISIBLE);
     }
 
     public void addMonument() {
@@ -176,9 +265,38 @@ public class CreateSubmit extends android.app.Fragment {
         switch (i) {
             case 0:
                 addMonument();
+                clearView();
+                setMonumentView();
+                etNaam.setText("");
+                etNaam.setHint("Naam");
+                break;
+            case 1:
+                addFoodAndDrink();
+                clearView();
+                setFoodAndDrinkView();
+                etNaam.setText("");
+                etNaam.setHint("Naam");
+                break;
+            case 2:
+                addEvents();
+                clearView();
+                setEventsView();
+                etNaam.setText("");
+                etNaam.setHint("Naam");
+                break;
+            case 3:
+                addMusea();
+                clearView();
+                setMuseaView();
+                etNaam.setText("");
+                etNaam.setHint("Naam");
                 break;
         }
+        d = new InsertMyData();
         d.execute(url);
+        Toast t = Toast.makeText(rootView.getContext(), etNaam.getText().toString() + " is toegevoegd", Toast.LENGTH_SHORT);
+        t.show();
+
         //go back to map of tnx screen
     }
 
