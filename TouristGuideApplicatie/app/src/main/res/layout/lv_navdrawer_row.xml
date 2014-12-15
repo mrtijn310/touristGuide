@@ -10,14 +10,15 @@
         android:layout_height="wrap_content"
         android:padding="3dip"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dip">
+        android:layout_marginRight="5dip"
+        >
 
         <ImageView
             android:id="@+id/imgToggle"
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:checked="true"
-            android:src="@drawable/red"
+            android:src="@drawable/opencheckbox2"
             />
 
     </LinearLayout>
@@ -43,15 +44,8 @@
             android:text="Bladiebla"
             android:gravity="center"
             android:layout_centerInParent="true"
-
             />
 
-        <!--<TextView-->
-        <!--android:id="@+id/tvDistance"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/tvTitle"-->
-        <!--/>-->
     </RelativeLayout>
 
 </RelativeLayout>

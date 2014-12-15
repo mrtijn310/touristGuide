@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -63,12 +62,14 @@ public class NavigationDrawerFragment extends Fragment {
     private Context context;
     private boolean[] isChecked;
 
+
     public NavigationDrawerFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         isChecked = new boolean[7];
         for(int n = 0; n < 7; n++)
@@ -108,7 +109,8 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
 
-        int[] catttt = new int[]{1, 2, 2, 2, 1, 1};
+
+        int[] catttt = new int[]{1, 2, 2, 2, 2, 1, 1};
         String[] titlesss = new String[]{
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
@@ -116,11 +118,13 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section4),
                         getString(R.string.title_section5),
                         getString(R.string.title_section6),
+
                 };
-        String[] distancesss = new String[]{"11", "22", "33", "44", "55", "66"};
+
 
         NavigationDrawerItemAdapter itemAdapter = new NavigationDrawerItemAdapter(context, catttt, titlesss);
         mDrawerListView.setAdapter(itemAdapter);
+
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -130,18 +134,17 @@ public class NavigationDrawerFragment extends Fragment {
                 ImageView imgToggle = (ImageView) view.findViewById(R.id.imgToggle);
                 if (isChecked[position])
                 {
-                    imgToggle.setImageResource(R.drawable.yellow);
+                    imgToggle.setImageResource(R.drawable.opencheckbox);
                     isChecked[position] = false;
                 }
 
                 else
                 {
-                    imgToggle.setImageResource(R.drawable.red);
+                    imgToggle.setImageResource(R.drawable.opencheckbox2);
                     isChecked[position] = true;
                 }
             }
         });
-
 
 
 //        mDrawerListView.setAdapter(new ArrayAdapter<String>(

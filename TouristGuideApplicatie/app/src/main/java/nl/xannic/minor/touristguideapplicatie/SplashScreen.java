@@ -125,6 +125,7 @@ public class SplashScreen extends Activity {
         Intent intentMain = new Intent(this, Main.class);
         intentMain.putExtra("goToSplashScreen", "false");
         startActivity(intentMain);
+        finish();
     }
 
     // locationListener

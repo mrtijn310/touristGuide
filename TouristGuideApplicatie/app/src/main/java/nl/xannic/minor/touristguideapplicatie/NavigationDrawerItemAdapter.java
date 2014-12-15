@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,21 +61,18 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
         if (vi == null)
             vi = inflater.inflate(R.layout.lv_navdrawer_row, null);
 
-        ImageView ivColorImage = (ImageView) vi.findViewById(R.id.ivColorImage);
+        ImageView imgToggle = (ImageView) vi.findViewById(R.id.imgToggle);
         TextView tvTitle = (TextView) vi.findViewById(R.id.tvTitle);
-//        CheckBox cbxToggle = (CheckBox) vi.findViewById(R.id.cbxToggle);
-
-        //TextView tvDistance = (TextView) vi.findViewById(R.id.tvDistance);
 
         switch(categories[position]) {
 
-//            case 1:
-//                cbxToggle.setVisibility(View.INVISIBLE);
-//                break;
-//            case 2:
-//                cbxToggle.setVisibility(View.VISIBLE);
-//                break;
-////            case 3:
+            case 1:
+                imgToggle.setVisibility(View.GONE);
+                break;
+            case 2:
+                imgToggle.setVisibility(View.VISIBLE);
+                break;
+//            case 3:
 //                ivColorImage.setImageResource(R.drawable.blue);
 //                break;
 //            case 4:
@@ -88,10 +84,9 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
 //            case 6:
 //                ivColorImage.setImageResource(R.drawable.cyan);
 //                break;
-            default:
-                //cbxToggle.setVisibility(View.INVISIBLE);
-                break;
-
+//            default:
+//                cbxToggle.setVisibility(View.GONE);
+//                break;
         }
 
         tvTitle.setText(titles[position]);

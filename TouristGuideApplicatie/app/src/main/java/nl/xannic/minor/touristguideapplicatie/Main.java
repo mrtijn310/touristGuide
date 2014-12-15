@@ -20,16 +20,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -96,11 +91,13 @@ public class Main extends FragmentActivity
         categories.add("Monumenten");
         categories.add("Eetcafes");
         categories.add("Evenementen");
+        categories.add("Musea");
 
         categoriesFinal = new ArrayList<Category>();
         categoriesFinal.add(new Category(1, "Monumenten"));
         categoriesFinal.add(new Category(2, "Eetcafes"));
         categoriesFinal.add(new Category(3, "Evenementen"));
+        categoriesFinal.add(new Category(4, "Musea"));
     }
 
     @Override
@@ -160,6 +157,10 @@ public class Main extends FragmentActivity
                             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
                                     .fromResource(R.drawable.event)));
                             break;
+                        case 4:
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
+                                    .fromResource(R.drawable.museum)));
+                            break;
                     }
                 }
             }
@@ -181,7 +182,6 @@ public class Main extends FragmentActivity
         }
         setUpMap();
     }
-
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -206,10 +206,14 @@ public class Main extends FragmentActivity
                 removeCatFromMap(cat);
                 break;
             case 4:
+                cat = categoriesFinal.get(3);
+                removeCatFromMap(cat);
+                break;
+            case 5:
                 fragment = new CreateWhatsNearList();
                 Log.e("Fragment : ", "Lijst");
                 break;
-            case 5:
+            case 6:
                 fragment = new CreateSubmit();
                 Log.e("Fragment : ", "Submit");
                 break;
@@ -241,6 +245,9 @@ public class Main extends FragmentActivity
                 break;
             case 6:
                 mTitle = getString(R.string.title_section6);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_section7);
                 break;
         }
     }
