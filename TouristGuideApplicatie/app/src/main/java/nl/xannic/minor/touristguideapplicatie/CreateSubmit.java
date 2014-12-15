@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,7 +22,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,8 +36,8 @@ import java.util.List;
 /**
  * Created by Xander on 12/5/2014.
  */
-public class CreateSubmit extends android.app.Fragment{
-    TextView tvNaam, tvCategorie, tvPlace,tvInfo;
+public class CreateSubmit extends android.app.Fragment {
+    TextView tvNaam, tvCategorie, tvPlace, tvInfo;
     Spinner spinnerCategorie;
     EditText etNaam, etInfo, etPlaceName;
     List<String> list;
@@ -40,6 +46,7 @@ public class CreateSubmit extends android.app.Fragment{
     View rootView;
     InsertMyData d;
     String url;
+    boolean takenpicture = false;
 
     public CreateSubmit() {
     }
@@ -54,13 +61,13 @@ public class CreateSubmit extends android.app.Fragment{
         etNaam = (EditText) rootView.findViewById(R.id.etNaam);
         d = new InsertMyData();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(rootView.getContext(),
-        R.array.categorieën, android.R.layout.simple_spinner_item);
+                R.array.categorieën, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategorie.setAdapter(adapter);
         spinnerCategorie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
                         clearView();
                         setMonumentView();
@@ -83,7 +90,6 @@ public class CreateSubmit extends android.app.Fragment{
             }
         });
         btPicture = (Button) rootView.findViewById(R.id.btPicture);
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         btPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +103,10 @@ public class CreateSubmit extends android.app.Fragment{
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(takenpicture==true){
+                    UploadThisFile up = new UploadThisFile(file);
+                    up.execute();
+                }
                 insertIntoDB();
             }
         });
@@ -105,7 +115,7 @@ public class CreateSubmit extends android.app.Fragment{
         return rootView;
     }
 
-    public void clearView(){
+    public void clearView() {
         etInfo.setVisibility(View.GONE);
         etPlaceName.setVisibility(View.GONE);
         tvPlace.setVisibility(View.GONE);
@@ -116,7 +126,7 @@ public class CreateSubmit extends android.app.Fragment{
         etInfo.setText("");
     }
 
-    public void setFoodAndDrinkView(){
+    public void setFoodAndDrinkView() {
         tvPlace.setVisibility(View.VISIBLE);
         etPlaceName.setVisibility(View.VISIBLE);
         tvInfo.setVisibility(View.VISIBLE);
@@ -124,25 +134,33 @@ public class CreateSubmit extends android.app.Fragment{
 
     }
 
-    public void setMonumentView(){
+    public void setMonumentView() {
         tvInfo.setVisibility(View.VISIBLE);
         etInfo.setVisibility(View.VISIBLE);
         tvPlace.setVisibility(View.VISIBLE);
+        etPlaceName.setVisibility(View.VISIBLE);
         btPicture.setVisibility(View.VISIBLE);
         btSubmit.setVisibility(View.VISIBLE);
+        ivPicture.setVisibility(View.VISIBLE);
     }
 
-    public void addMonument(){
+    public void addMonument() {
         url = "http://www.xannic.nl/api/insertdata.php";
         String name = etNaam.getText().toString();
         String info = etInfo.getText().toString();
         String stringLat = String.valueOf(Data.lat);
         String stringLon = String.valueOf(Data.lon);
         String cityName = etPlaceName.getText().toString();
-        long i = spinnerCategorie.getSelectedItemId()+1;
+        long i = spinnerCategorie.getSelectedItemId() + 1;
         String categoryId = Long.toString(i);
-        String imgUrl = "null";
-        url+= "?name=" + name+"&info="+info+"&lat=" + stringLat+"&lon=" + stringLon+"&cityname=" + cityName+"&categoryid=" + categoryId+"&imageurl"+imgUrl;
+        String imgUrl;
+        if(takenpicture) {
+            imgUrl = "http://www.xannic.nl/api/uploads/" +fileUri.getLastPathSegment();
+        }
+        else{
+            imgUrl = null;
+        }
+        url += "?name=" + name + "&info=" + info + "&lat=" + stringLat + "&lon=" + stringLon + "&cityname=" + cityName + "&categoryid=" + categoryId + "&imageurl=" + imgUrl;
     }
 
     public void locationGetter() {
@@ -152,10 +170,10 @@ public class CreateSubmit extends android.app.Fragment{
 
     }
 
-    public void insertIntoDB(){
+    public void insertIntoDB() {
         long longCat = spinnerCategorie.getSelectedItemId();
         int i = (int) longCat;
-        switch(i){
+        switch (i) {
             case 0:
                 addMonument();
                 break;
@@ -165,12 +183,14 @@ public class CreateSubmit extends android.app.Fragment{
     }
 
     private Uri fileUri;
+    File file;
 
-    public void cameraIntent(){
+    public void cameraIntent() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+        fileUri = Uri.fromFile(file); // create a file to save the image
 
-//        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
         //Put extra werkt niet om 1 of andere reden...
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
         Log.e("fileUri: ", "" + fileUri);
@@ -181,13 +201,17 @@ public class CreateSubmit extends android.app.Fragment{
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
 
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
+    /**
+     * Create a file Uri for saving an image or video
+     */
+    private static File getOutputMediaFileUri(int type) {
+        return getOutputMediaFile(type);
     }
 
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
+    /**
+     * Create a File for saving an image or video
+     */
+    private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -197,8 +221,8 @@ public class CreateSubmit extends android.app.Fragment{
         // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 Log.d("TouringGuide", "failed to create directory");
                 return null;
             }
@@ -207,12 +231,12 @@ public class CreateSubmit extends android.app.Fragment{
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
+        if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
+                    "IMG_" + timeStamp + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
+                    "VID_" + timeStamp + ".mp4");
         } else {
             return null;
         }
@@ -231,7 +255,8 @@ public class CreateSubmit extends android.app.Fragment{
                     //pakt de foto via de file uri... en zet hem vervolgens in de ImageView
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(rootView.getContext().getContentResolver(), fileUri);
                     ivPicture.setImageBitmap(bitmap);
-                }catch(Exception e){
+                    takenpicture= true;
+                } catch (Exception e) {
                     //catch filenotfoundexception
                     Log.e("Error : ", "File not Found denk ik");
                 }
@@ -241,6 +266,5 @@ public class CreateSubmit extends android.app.Fragment{
                 // Image capture failed, advise user
             }
         }
-
     }
 }

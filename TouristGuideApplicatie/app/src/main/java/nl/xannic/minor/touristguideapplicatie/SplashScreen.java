@@ -52,7 +52,7 @@ public class SplashScreen extends Activity {
     ImageView imgSplash;
     int locationUpdateTimeMilliseconds = 300000;
     int locationUpdateMeter = 10;
-    boolean ISTEST = false;
+    boolean ISTEST = true;
 
 
     protected void onCreate(Bundle savedInstanceState) {
