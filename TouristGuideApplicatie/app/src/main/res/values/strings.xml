@@ -2,12 +2,12 @@
 <resources>
 
     <string name="app_name">Tourist Guide</string>
-    <string name="title_section1">Categories</string>
+    <string name="title_section1">Categorieën</string>
     <string name="title_section2">Monumenten</string>
     <string name="title_section3">Eetcafes</string>
     <string name="title_section4">Evenementen</string>
-    <string name="title_section5">What is near?!</string>
-    <string name="title_section6">Submit a Place</string>
+    <string name="title_section5">In de buurt</string>
+    <string name="title_section6">Voeg een locatie toe</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example"></string>
@@ -21,5 +21,7 @@
         <item>Cafés</item>
         <item>Evenementen</item>
     </string-array>
+
+    <string name="title_activity_item">ItemActivity</string>
 
 </resources>

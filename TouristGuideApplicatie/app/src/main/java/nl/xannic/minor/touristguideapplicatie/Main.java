@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class Main extends FragmentActivity
     private List<Item> item;
     private List<String> categories;
     private List<Category> categoriesFinal;
+    private ImageView imgToggle;
 
     Data data;
 
@@ -61,11 +63,6 @@ public class Main extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        if (goToSplashScreen == true) {
-//            Intent intentSplash = new Intent(this, SplashScreen.class);
-//            startActivity(intentSplash);
-//        }
-
 
         data = new Data();
 
@@ -80,6 +77,7 @@ public class Main extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        imgToggle =  (ImageView) findViewById(R.id.imgToggle);
     }
 
     private void createDummyData(){
@@ -193,6 +191,7 @@ public class Main extends FragmentActivity
             case 0:
                 fragment = new CreateMapFragment();
                 Log.e("Fragment : ", "Map");
+
                 break;
             case 1:
                 cat = categoriesFinal.get(0);

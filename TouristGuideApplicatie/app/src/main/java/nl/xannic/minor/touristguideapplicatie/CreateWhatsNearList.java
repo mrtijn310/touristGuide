@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +35,6 @@ import java.util.Locale;
  * Created by Xander on 12/3/2014.
  */
 public class CreateWhatsNearList extends Fragment {
-
     ListView  lvOverview;
     double[] lats;
     double[] lons;
@@ -50,6 +51,7 @@ public class CreateWhatsNearList extends Fragment {
     double newLat;
     double newLon;
     View rootView;
+    ArrayList<Item> itemList;
 
 
     public CreateWhatsNearList() {
@@ -59,7 +61,8 @@ public class CreateWhatsNearList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.whatsnearlist, container, false);
         Data data = new Data();
-        makeList(data.getSortedList(Data.itemList));
+        itemList = Data.itemList;
+        makeList(data.getSortedList(itemList));
         return rootView;
     }
 
@@ -69,7 +72,7 @@ public class CreateWhatsNearList extends Fragment {
         context=activity;
     }
 
-    private void makeList(ArrayList<Item> itemList )
+    private void makeList(final ArrayList<Item> itemList )
     {
         int size = itemList.size();
         String[] stringCat = new String[size];
@@ -85,14 +88,31 @@ public class CreateWhatsNearList extends Fragment {
         //    stringDist[n] = Double.toString(itemList.get(n).getDistance());
         }
 
-        int[] catttt = new int[]{1, 2, 3, 4, 5, 6};
-        String[] titlesss = new String[]{"Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"};
-        String[] distancesss = new String[]{"11", "22", "33", "44", "55", "66"};
-
         lvOverview = (ListView) rootView.findViewById(R.id.lvOverview);
 
         lvItemAdapter itemAdapter = new lvItemAdapter(context, categories, names);
         lvOverview.setAdapter(itemAdapter);
+
+        lvOverview.setOnItemClickListener(new ListView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // selected item
+                String product = "ID: " + itemList.get(position).getID();
+                product += "\nName: " + itemList.get(position).getName();
+
+                //Toast.makeText(getApplicationContext(), product, Toast.LENGTH_SHORT).show();
+
+                // Launching new Activity on selecting single List Item
+                Intent intent = new Intent(context, ItemActivity.class);
+                // sending data to new activity
+                intent.putExtra("name", itemList.get(position).getName());
+                intent.putExtra("category", Integer.toString(itemList.get(position).getCategoryID()));
+                intent.putExtra("imageSource", itemList.get(position).getImage());
+
+                startActivity(intent);
+            }
+        });
 
 
         //lvOverview.setListAdapter(new lvItemAdapter(context.getApplicationContext(), cat, schoolbag, schoolbag));

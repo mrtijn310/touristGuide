@@ -48,11 +48,15 @@ public class CreateSubmit extends android.app.Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.submit, container, false);
         OrientationUtils.lockOrientationPortrait(getActivity());
+
+        Data newData = new Data();
         tvNaam = (TextView) rootView.findViewById(R.id.tvNaam);
         tvCategorie = (TextView) rootView.findViewById(R.id.tvCategorie);
         spinnerCategorie = (Spinner) rootView.findViewById(R.id.spinnerCategorie);
         etNaam = (EditText) rootView.findViewById(R.id.etNaam);
         d = new InsertMyData();
+
+        //newData.getLocation();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(rootView.getContext(),
         R.array.categorieën, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -132,25 +136,20 @@ public class CreateSubmit extends android.app.Fragment{
         btSubmit.setVisibility(View.VISIBLE);
     }
 
-    public void addMonument(){
+    public void addMonument() {
         url = "http://www.xannic.nl/api/insertdata.php";
         String name = etNaam.getText().toString();
         String info = etInfo.getText().toString();
         String stringLat = String.valueOf(Data.lat);
         String stringLon = String.valueOf(Data.lon);
         String cityName = etPlaceName.getText().toString();
-        long i = spinnerCategorie.getSelectedItemId()+1;
+        long i = spinnerCategorie.getSelectedItemId() + 1;
         String categoryId = Long.toString(i);
         String imgUrl = "null";
-        url+= "?name=" + name+"&info="+info+"&lat=" + stringLat+"&lon=" + stringLon+"&cityname=" + cityName+"&categoryid=" + categoryId+"&imageurl"+imgUrl;
-    }
-
-    public void locationGetter() {
-        // Here I want to send this ArrayList values into the call
-        // method in activity class.
-
+        url += "?name=" + name + "&info=" + info + "&lat=" + stringLat + "&lon=" + stringLon + "&cityname=" + cityName + "&categoryid=" + categoryId + "&imageurl" + imgUrl;
 
     }
+
 
     public void insertIntoDB(){
         long longCat = spinnerCategorie.getSelectedItemId();
