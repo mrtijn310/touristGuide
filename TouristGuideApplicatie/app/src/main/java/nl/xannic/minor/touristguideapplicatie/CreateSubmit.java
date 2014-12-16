@@ -265,29 +265,21 @@ public class CreateSubmit extends android.app.Fragment {
                 addMonument();
                 clearView();
                 setMonumentView();
-                etNaam.setText("");
-                etNaam.setHint("Naam");
                 break;
             case 1:
                 addFoodAndDrink();
                 clearView();
                 setFoodAndDrinkView();
-                etNaam.setText("");
-                etNaam.setHint("Naam");
                 break;
             case 2:
                 addEvents();
                 clearView();
                 setEventsView();
-                etNaam.setText("");
-                etNaam.setHint("Naam");
                 break;
             case 3:
                 addMusea();
                 clearView();
                 setMuseaView();
-                etNaam.setText("");
-                etNaam.setHint("Naam");
                 break;
         }
 
@@ -295,8 +287,8 @@ public class CreateSubmit extends android.app.Fragment {
         d.execute(url);
         Toast t = Toast.makeText(rootView.getContext(), etNaam.getText().toString() + " is toegevoegd", Toast.LENGTH_SHORT);
         t.show();
-
-        //go back to map of tnx screen
+        etNaam.setText("");
+        etNaam.setHint("Naam");
     }
 
     private Uri fileUri;

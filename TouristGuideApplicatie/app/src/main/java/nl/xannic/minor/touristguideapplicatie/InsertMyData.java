@@ -1,6 +1,7 @@
 package nl.xannic.minor.touristguideapplicatie;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.internal.ca;
 import com.google.gson.Gson;
@@ -18,30 +19,21 @@ import java.util.List;
 /**
  * Created by Xander on 12/11/2014.
  */
-public class InsertMyData extends AsyncTask<String, Void, String>{
-    String name, info, lat,lon,cityName,categoryId,imageUrl;
+public class InsertMyData extends AsyncTask<String, Void, Void>{
 
-//    InsertMyData(String name, String info,String lat, String lon, String cityName, String categoryId, String imageUrl){
-//        this.name = name;
-//        this.info = info;
-//        this.lat = lat;
-//        this.lon = lon;
-//        this.cityName = cityName;
-//        this.categoryId = categoryId;
-//        this.imageUrl = imageUrl;
-//    }
-
-        protected String doInBackground(String... params) {
-            String output = null;
+        @Override
+        protected Void doInBackground(String... params) {
+            String url = null;
+            android.os.Debug.waitForDebugger();
             try {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpPost = new HttpGet(params[0]);
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                output = EntityUtils.toString(httpEntity);
+                url = params[0].replaceAll(" ", "%20");
+                Log.e("link:  --->  ", params[0]);
+                HttpGet httpPost = new HttpGet(url);
+                httpClient.execute(httpPost);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return output;
+            return null;
         }
 }
