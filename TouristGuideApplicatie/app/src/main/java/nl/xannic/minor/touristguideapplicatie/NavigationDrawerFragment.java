@@ -134,32 +134,17 @@ public class NavigationDrawerFragment extends Fragment {
                 ImageView imgToggle = (ImageView) view.findViewById(R.id.imgToggle);
                 if (isChecked[position])
                 {
-                    imgToggle.setImageResource(R.drawable.opencheckbox);
+                    imgToggle.setImageResource(R.drawable.cbxunchecked);
                     isChecked[position] = false;
                 }
 
                 else
                 {
-                    imgToggle.setImageResource(R.drawable.opencheckbox2);
+                    imgToggle.setImageResource(R.drawable.cbxchecked);
                     isChecked[position] = true;
                 }
             }
         });
-
-
-//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-//                getActionBar().getThemedContext(),
-//                R.layout.whatsnearlist,
-//                android.R.id.text1,
-//                new String[]{
-//                        getString(R.string.title_section1),
-//                        getString(R.string.title_section2),
-//                        getString(R.string.title_section3),
-//                        getString(R.string.title_section4),
-//                        getString(R.string.title_section5),
-//                        getString(R.string.title_section6),
-//                }));
-
 
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -204,7 +189,6 @@ public class NavigationDrawerFragment extends Fragment {
                 if (!isAdded()) {
                     return;
                 }
-
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 

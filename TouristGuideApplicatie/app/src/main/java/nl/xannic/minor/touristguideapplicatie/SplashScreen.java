@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +66,10 @@ public class SplashScreen extends Activity {
         imgSplash = (ImageView) findViewById(R.id.imgSplash);
         imgSplash.setImageResource(R.drawable.splash);
         Config.context = this;
+        Button btnGoToMain = (Button) findViewById(R.id.btnGoToMain);
+        btnGoToMain.setOnClickListener(btnClickGoToMain);
+
+
 
         if (ISTEST)
         {
@@ -87,23 +92,23 @@ public class SplashScreen extends Activity {
         }
 
         else
-        {
-            locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-            locListener = new locationListener();
-            locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
+           {
+            getLocation();
+//            locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//            locListener = new locationListener();
+//            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
 
 //            Data mData = new Data();
 //            mData.getLocation();
-            goToMain();
+//           goToMain();
         }
     }
 
-//    public void getLocation() {
-//        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        locListener = new locationListener();
-//        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-//        goToMain();
-//    }
+    public void getLocation() {
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locListener = new locationListener();
+        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,6 +133,20 @@ public class SplashScreen extends Activity {
         finish();
     }
 
+
+
+    View.OnClickListener btnClickGoToMain =
+            new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    goToMain();
+                }};
+
+
+
+
+
     // locationListener
     public class locationListener implements LocationListener {
 
@@ -145,10 +164,25 @@ public class SplashScreen extends Activity {
             newLon /= 1000;
 
             GetCoordinates getCoordinates = new GetCoordinates();
-            String sql = "http://xannic.nl/api/json2.php";
-            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
-            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
+//            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
+//            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
 
+            String sql = "http://xannic.nl/api/json2.php";
+            sql += "?q=";
+            sql += "SELECT ID, Name, CategoryID, lat, lon";
+            sql += " FROM Events";
+            sql += " UNION ALL";
+            sql += " SELECT ID, Name, CategoryID, lat, lon";
+            sql += " FROM FoodsAndDrinks";
+            sql += " UNION ALL";
+            sql += " SELECT ID, Name, CategoryID, lat, lon";
+            sql += " FROM MuseaAndBuildings";
+            sql += " UNION ALL";
+            sql += " SELECT ID, Name, CategoryID, lat, lon";
+            sql += " FROM StatueAndMonuments";
+            //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
+            sql += " LIMIT 10";
+            sql = sql.replaceAll(" ", "%20");
             getCoordinates.execute(sql);
         }
 

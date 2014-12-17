@@ -18,7 +18,7 @@
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:checked="true"
-            android:src="@drawable/opencheckbox2"
+            android:src="@drawable/cbxchecked"
             />
 
     </LinearLayout>
