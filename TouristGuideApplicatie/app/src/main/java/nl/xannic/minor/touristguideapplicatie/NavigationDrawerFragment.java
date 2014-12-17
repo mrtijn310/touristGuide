@@ -134,13 +134,13 @@ public class NavigationDrawerFragment extends Fragment {
                 ImageView imgToggle = (ImageView) view.findViewById(R.id.imgToggle);
                 if (isChecked[position])
                 {
-                    imgToggle.setImageResource(R.drawable.opencheckbox);
+                    imgToggle.setImageResource(R.drawable.cbxunchecked);
                     isChecked[position] = false;
                 }
 
                 else
                 {
-                    imgToggle.setImageResource(R.drawable.opencheckbox2);
+                    imgToggle.setImageResource(R.drawable.cbxchecked);
                     isChecked[position] = true;
                 }
             }
