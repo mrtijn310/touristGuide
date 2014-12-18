@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -132,8 +134,8 @@ public class Main extends FragmentActivity
     private void setUpMap() {
         mMap.clear();
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
-                10));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
+//                10));
         //mMap.addMarker(new MarkerOptions().position(new LatLng(51.841928,4.925339)).title("test"));
         for(int i = 0; i < item.size(); i++) {
             double lat = item.get(i).getLat();

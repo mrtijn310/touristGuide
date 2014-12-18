@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
@@ -38,7 +43,10 @@ import java.util.Locale;
 
 import nl.xannic.minor.touristguideapplicatie.Item;
 
-public class SplashScreen extends Activity {
+public class SplashScreen extends Activity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        com.google.android.gms.location.LocationListener
+{
 
     double[] lats;
     double[] lons;
@@ -49,7 +57,7 @@ public class SplashScreen extends Activity {
     double newLon;
     LocationManager locManager;
     LocationListener locListener;
-//    List<Item> itemList = new ArrayList<Item>();
+    //    List<Item> itemList = new ArrayList<Item>();
     ImageView imgSplash;
     int locationUpdateTimeMilliseconds = 300000;
     int locationUpdateMeter = 10;
@@ -92,7 +100,9 @@ public class SplashScreen extends Activity {
         }
 
         else
-           {
+        {
+            initClient();
+            initManager();
             getLocation();
 //            locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 //            locListener = new locationListener();
@@ -104,11 +114,11 @@ public class SplashScreen extends Activity {
         }
     }
 
-    public void getLocation() {
-        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locListener = new locationListener();
-        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-    }
+//    public void getLocation() {
+//        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        locListener = new locationListener();
+//        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -126,11 +136,77 @@ public class SplashScreen extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    boolean isGoToMain = true;
+
     public void goToMain() {
-        Intent intentMain = new Intent(this, Main.class);
-        intentMain.putExtra("goToSplashScreen", "false");
-        startActivity(intentMain);
-        finish();
+        if(isGoToMain==true){
+            isGoToMain = false;
+            Intent intentMain = new Intent(this, Main.class);
+            intentMain.putExtra("goToSplashScreen", "false");
+            startActivity(intentMain);
+            finish();
+        }
+    }
+
+    LocationManager locationManager;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+
+    public void initClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API).addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this).build();
+    }
+
+    public void initManager() {
+        locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onConnected(Bundle arg0) {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest
+                .setPriority(LocationRequest.PRIORITY_LOW_POWER);
+        mLocationRequest.setInterval(locationUpdateTimeMilliseconds);
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this);
+    }
+
+    public void connectClient() {
+        mGoogleApiClient.connect();
+    }
+
+    public void disconnectClient() {
+        mGoogleApiClient.disconnect();
+    }
+
+    public Location getLocation() {
+        Location foundLocation;
+        if (!mGoogleApiClient.isConnected()) {
+            connectClient();
+        }
+        foundLocation = LocationServices.FusedLocationApi
+                .getLastLocation(mGoogleApiClient);
+        if (foundLocation == null) {
+            foundLocation = locationManager
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        Log.e("FOUNDLOCATION", foundLocation + "");
+        return foundLocation;
+    }
+
+    @Override
+    public void onConnectionSuspended(int arg0) {
+        // TODO Auto-generated method stub
+
     }
 
 
@@ -143,9 +219,42 @@ public class SplashScreen extends Activity {
                     goToMain();
                 }};
 
+    @Override
+    public void onLocationChanged(Location loc) {
+        lat = loc.getLatitude();
+        lon = loc.getLongitude();
 
+        newLat = lat * 1000;
+        newLat = Math.round(newLat);
+        newLat /= 1000;
 
+        newLon = lon * 1000;
+        newLon = Math.round(newLon);
+        newLon /= 1000;
 
+        GetCoordinates getCoordinates = new GetCoordinates();
+//            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
+//            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
+
+        String sql = "http://xannic.nl/api/json2.php";
+        sql += "?q=";
+        sql += "SELECT ID, Name, CategoryID, lat, lon";
+        sql += " FROM Events";
+        sql += " UNION ALL";
+        sql += " SELECT ID, Name, CategoryID, lat, lon";
+        sql += " FROM FoodsAndDrinks";
+        sql += " UNION ALL";
+        sql += " SELECT ID, Name, CategoryID, lat, lon";
+        sql += " FROM MuseaAndBuildings";
+        sql += " UNION ALL";
+        sql += " SELECT ID, Name, CategoryID, lat, lon";
+        sql += " FROM StatueAndMonuments";
+        sql += " ORDER BY Name";
+        //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
+        sql += " LIMIT 25";
+        sql = sql.replaceAll(" ", "%20");
+        getCoordinates.execute(sql);
+    }
 
     // locationListener
     public class locationListener implements LocationListener {
@@ -255,4 +364,5 @@ public class SplashScreen extends Activity {
             return items;
         }
     }
+
 }
