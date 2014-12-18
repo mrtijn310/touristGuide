@@ -169,17 +169,21 @@ public class SplashScreen extends Activity {
 
             String sql = "http://xannic.nl/api/json2.php";
             sql += "?q=";
-            sql += "SELECT ID, Name, CategoryID, lat, lon";
+            sql += "SELECT ID, Name, CategoryID, lat, lon, isVisible";
             sql += " FROM Events";
+            sql += " WHERE isVisible = 1";
             sql += " UNION ALL";
-            sql += " SELECT ID, Name, CategoryID, lat, lon";
+            sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible";
             sql += " FROM FoodsAndDrinks";
+            sql += " WHERE isVisible = 1";
             sql += " UNION ALL";
-            sql += " SELECT ID, Name, CategoryID, lat, lon";
+            sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible";
             sql += " FROM MuseaAndBuildings";
+            sql += " WHERE isVisible = 1";
             sql += " UNION ALL";
-            sql += " SELECT ID, Name, CategoryID, lat, lon";
+            sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible";
             sql += " FROM StatueAndMonuments";
+            sql += " WHERE isVisible = 1";
             //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
             sql += " LIMIT 10";
             sql = sql.replaceAll(" ", "%20");
