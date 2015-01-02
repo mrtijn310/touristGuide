@@ -170,13 +170,18 @@ public class Main extends FragmentActivity
     }
 
     public void removeCatFromMap(Category cat){
-        int catId = cat.getID();
+        int catID = cat.getID();
         String name = cat.getName();
         if(categories!=null){
-            if(categories.contains(name)){
+            if(categories.contains(name))
+            {
                 categories.remove(name);
-            }else{
+                //Data.isCatVisible[catID] = false;
+            }
+            else
+            {
                 categories.add(name);
+                //Data.isCatVisible[catID] = true;
             }
         }
         else{
@@ -184,6 +189,7 @@ public class Main extends FragmentActivity
         }
         setUpMap();
     }
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments

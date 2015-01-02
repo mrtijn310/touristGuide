@@ -2,6 +2,7 @@ package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
@@ -28,6 +33,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,12 +52,17 @@ public class CreateWhatsNearList extends Fragment {
     String[] stringDist;
     Context context;
 
+    private List<String> strCategories;
+    private List<Category> strCategoriesFinal;
+
+
     double lat;
     double lon;
     double newLat;
     double newLon;
     View rootView;
     ArrayList<Item> itemList;
+    Data data;
 
 
     public CreateWhatsNearList() {
@@ -60,9 +71,21 @@ public class CreateWhatsNearList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.whatsnearlist, container, false);
-        Data data = new Data();
+        data = new Data();
         itemList = Data.itemList;
         makeList(data.getSortedList(itemList));
+
+        strCategories = new ArrayList<String>();
+        strCategories.add("Monumenten");
+        strCategories.add("Eetcafes");
+        strCategories.add("Evenementen");
+        strCategories.add("Musea");
+
+        strCategoriesFinal = new ArrayList<Category>();
+        strCategoriesFinal.add(new Category(1, "Monumenten"));
+        strCategoriesFinal.add(new Category(2, "Eetcafes"));
+        strCategoriesFinal.add(new Category(3, "Evenementen"));
+        strCategoriesFinal.add(new Category(4, "Musea"));
         return rootView;
     }
 
@@ -76,17 +99,28 @@ public class CreateWhatsNearList extends Fragment {
     {
         int size = itemList.size();
         String[] stringCat = new String[size];
-       // String[] stringDist = new String[size];
 
-        categories = new int[size];
-        names = new String[size];
+        LinkedList<Integer> lstCategories = new LinkedList<Integer>();
+        LinkedList<String> lstNames = new LinkedList<String>();
         stringDist = new String[10];
 
         for(int n = 0; n < size; n++) {
-            categories[n] = itemList.get(n).getCategoryID();
-            names[n] = itemList.get(n).getName();
-        //    stringDist[n] = Double.toString(itemList.get(n).getDistance());
+            int catId = itemList.get(n).getCategoryID();
+            if (Data.isCatVisible[catId-1] == true)
+            {
+                lstCategories.add(itemList.get(n).getCategoryID());
+                lstNames.add(itemList.get(n).getName());
+            }
         }
+
+
+        categories = new int[lstCategories.size()];
+        for(int n = 0; n< lstCategories.size(); n++)
+        {
+            categories[n] = lstCategories.get(n);
+        }
+
+        names = lstNames.toArray(new String[lstNames.size()]);
 
         lvOverview = (ListView) rootView.findViewById(R.id.lvOverview);
 
@@ -107,7 +141,7 @@ public class CreateWhatsNearList extends Fragment {
                 Intent intent = new Intent(context, ItemActivity.class);
                 // sending data to new activity
                 intent.putExtra("name", itemList.get(position).getName());
-                intent.putExtra("category", Integer.toString(itemList.get(position).getCategoryID()));
+                intent.putExtra("description", itemList.get(position).getInformation());
                 intent.putExtra("imageSource", itemList.get(position).getImage());
 
                 startActivity(intent);
@@ -117,5 +151,6 @@ public class CreateWhatsNearList extends Fragment {
 
         //lvOverview.setListAdapter(new lvItemAdapter(context.getApplicationContext(), cat, schoolbag, schoolbag));
         //lvOverview.setAdapter(new lvItemAdapter(getActivity().getApplicationContext(), categories, names, stringDist));
+
     }
 }

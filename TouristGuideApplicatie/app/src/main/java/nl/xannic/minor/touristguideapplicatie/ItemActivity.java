@@ -16,22 +16,21 @@ public class ItemActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+        getActionBar().hide();
 
         TextView tvName = (TextView) findViewById(R.id.tvName);
-        TextView tvCategory = (TextView) findViewById(R.id.tvCategory);
-        TextView tvImageSource = (TextView) findViewById(R.id.tvImageSource);
+        TextView tvDescription = (TextView) findViewById(R.id.tvDescription);
         ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
 
         Intent intent = getIntent();
         // getting attached intent data
         String name = intent.getStringExtra("name");
-        String category = intent.getStringExtra("category");
+        String description = intent.getStringExtra("description");
         String imageSource = intent.getStringExtra("imageSource");
         // displaying selected product name
-        tvName.setText("Name: " + name);
-        tvCategory.setText("Category: " + category);
-        tvImageSource.setText("Image: " + imageSource);
-        int loader = R.drawable.loader;
+        tvName.setText(name);
+        tvDescription.setText(description);
+        int loader = R.drawable.empty_image;
         ImageLoader imageLoader = new ImageLoader(getApplicationContext());
 
         // whenever you want to load an image from url

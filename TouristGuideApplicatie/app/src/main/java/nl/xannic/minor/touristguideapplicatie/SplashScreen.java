@@ -74,8 +74,6 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         imgSplash = (ImageView) findViewById(R.id.imgSplash);
         imgSplash.setImageResource(R.drawable.splash);
         Config.context = this;
-        Button btnGoToMain = (Button) findViewById(R.id.btnGoToMain);
-        btnGoToMain.setOnClickListener(btnClickGoToMain);
 
 
 
@@ -211,14 +209,6 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 
 
 
-    View.OnClickListener btnClickGoToMain =
-            new View.OnClickListener(){
-
-                @Override
-                public void onClick(View v) {
-                    goToMain();
-                }};
-
     @Override
     public void onLocationChanged(Location loc) {
         lat = loc.getLatitude();
@@ -236,22 +226,47 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 //            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
 //            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
 
-        String sql = "http://xannic.nl/api/json2.php";
-        sql += "?q=";
-        sql += "SELECT ID, Name, CategoryID, lat, lon";
-        sql += " FROM Events";
-        sql += " UNION ALL";
-        sql += " SELECT ID, Name, CategoryID, lat, lon";
-        sql += " FROM FoodsAndDrinks";
-        sql += " UNION ALL";
-        sql += " SELECT ID, Name, CategoryID, lat, lon";
-        sql += " FROM MuseaAndBuildings";
-        sql += " UNION ALL";
-        sql += " SELECT ID, Name, CategoryID, lat, lon";
-        sql += " FROM StatueAndMonuments";
-        sql += " ORDER BY Name";
-        //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
-        sql += " LIMIT 25";
+//        String sql = "http://xannic.nl/api/json2.php";
+
+        String sql = "http://xannic.nl/api/json4.php";
+        sql +="?getevents=1";
+        sql +="&getfoodsanddrinks=1";
+        sql +="&getmuseaandbuildings=1";
+        sql +="&getstatueandmonuments=1";
+
+        // I Have switched the lat and lon on purpose, for safety reasons (sort of (-; ).
+        sql +="&lattitude=" + lon;
+        sql +="&longitude=" + lat;
+        sql +="&distance=5";
+        sql +="&limit=30";
+
+
+
+
+
+
+
+
+
+//        sql += "?q=";
+//        sql += "SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
+//        sql += " FROM Events";
+//        sql += " WHERE isVisible = 1";
+//        sql += " UNION ALL";
+//        sql += " SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
+//        sql += " FROM FoodsAndDrinks";
+//        sql += " WHERE isVisible = 1";
+//        sql += " UNION ALL";
+//        sql += " SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
+//        sql += " FROM MuseaAndBuildings";
+//        sql += " WHERE isVisible = 1";
+//        sql += " UNION ALL";
+//        sql += " SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
+//        sql += " FROM StatueAndMonuments";
+//        sql += " WHERE isVisible = 1";
+//        sql += " ORDER BY Name";
+//        //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
+//        sql += " LIMIT 25";
         sql = sql.replaceAll(" ", "%20");
         getCoordinates.execute(sql);
     }
@@ -364,5 +379,4 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             return items;
         }
     }
-
 }

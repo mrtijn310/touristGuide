@@ -130,18 +130,54 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
-
                 ImageView imgToggle = (ImageView) view.findViewById(R.id.imgToggle);
-                if (isChecked[position])
-                {
-                    imgToggle.setImageResource(R.drawable.cbxunchecked);
-                    isChecked[position] = false;
-                }
 
-                else
-                {
-                    imgToggle.setImageResource(R.drawable.cbxchecked);
-                    isChecked[position] = true;
+
+                switch((int) id) {
+                    case 1:
+                        if (isChecked[1])
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxunchecked);
+                            isChecked[1] = false;
+                        } else
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxchecked);
+                            isChecked[1] = true;
+                        }
+                        break;
+                    case 2:
+                        if (isChecked[2])
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxunchecked);
+                            isChecked[2] = false;
+                        } else
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxchecked);
+                            isChecked[2] = true;
+                        }
+                        break;
+                    case 3:
+                       if (isChecked[3])
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxunchecked);
+                            isChecked[3] = false;
+                        } else
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxchecked);
+                            isChecked[3] = true;
+                        }
+                        break;
+                    case 4:
+                        if (isChecked[4])
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxunchecked);
+                            isChecked[4] = false;
+                        } else
+                        {
+                            imgToggle.setImageResource(R.drawable.cbxchecked);
+                            isChecked[4] = true;
+                        }
+                        break;
                 }
             }
         });
@@ -234,8 +270,11 @@ public class NavigationDrawerFragment extends Fragment {
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        if(position < 1 || position > 4 )
+        {
+            if (mDrawerLayout != null) {
+                mDrawerLayout.closeDrawer(mFragmentContainerView);
+            }
         }
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
