@@ -2,16 +2,20 @@ package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.audiofx.BassBoost;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +66,9 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     int locationUpdateTimeMilliseconds = 300000;
     int locationUpdateMeter = 10;
     boolean ISTEST = false;
+    LocationManager locationManager;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,26 +104,52 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             goToMain();
         }
 
-        else
-        {
+        else {
+            boolean gps_enabled = false, network_enabled = false;
+
             initClient();
             initManager();
-            getLocation();
-//            locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//            locListener = new locationListener();
-//            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
 
-//            Data mData = new Data();
-//            mData.getLocation();
-//           goToMain();
+
+            try{
+                gps_enabled =  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            }catch(Exception ex){}
+            try{
+                network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            }catch(Exception ex){}
+
+            if(!gps_enabled && !network_enabled) {
+
+                final Context context = this;
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setMessage("Uw GPS staat niet aan");
+                dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        context.startActivity(myIntent);
+                        //get gps
+                    }
+                });
+                dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+                dialog.show();
+            }
+
+            else {
+                getLocation();
+            }
         }
     }
-
-//    public void getLocation() {
-//        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        locListener = new locationListener();
-//        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,9 +179,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         }
     }
 
-    LocationManager locationManager;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+
 
     public void initClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
