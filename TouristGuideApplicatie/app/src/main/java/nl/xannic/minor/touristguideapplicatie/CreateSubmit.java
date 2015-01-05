@@ -1,15 +1,12 @@
 package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +18,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -129,14 +119,16 @@ public class CreateSubmit extends android.app.Fragment {
         etPlaceName.setVisibility(View.GONE);
         tvPlace.setVisibility(View.GONE);
         tvInfo.setVisibility(View.GONE);
+        ivPicture.setVisibility(View.GONE);
         etPlaceName.setText("");
         etInfo.setText("");
         tvWebsite.setVisibility(View.GONE);
         etWebsite.setVisibility(View.GONE);
         etWebsite.setText("");
         etWebsite.setHint("www.example.nl");
-        btPicture.setVisibility(View.VISIBLE);
+        btPicture.setVisibility(View.INVISIBLE);
         btSubmit.setVisibility(View.VISIBLE);
+        ivPicture.setVisibility(View.VISIBLE);
     }
 
     public void setFoodAndDrinkView() {
@@ -146,6 +138,7 @@ public class CreateSubmit extends android.app.Fragment {
         etInfo.setVisibility(View.VISIBLE);
         tvWebsite.setVisibility(View.VISIBLE);
         etWebsite.setVisibility(View.VISIBLE);
+        ivPicture.setVisibility(View.VISIBLE);
     }
 
     public void setMuseaView() {
@@ -155,6 +148,7 @@ public class CreateSubmit extends android.app.Fragment {
         etInfo.setVisibility(View.VISIBLE);
         tvWebsite.setVisibility(View.VISIBLE);
         etWebsite.setVisibility(View.VISIBLE);
+        ivPicture.setVisibility(View.VISIBLE);
     }
 
     public void setEventsView() {
@@ -164,6 +158,7 @@ public class CreateSubmit extends android.app.Fragment {
         etInfo.setVisibility(View.VISIBLE);
         tvWebsite.setVisibility(View.VISIBLE);
         etWebsite.setVisibility(View.VISIBLE);
+        ivPicture.setVisibility(View.VISIBLE);
     }
 
     public void addFoodAndDrink() {
@@ -234,7 +229,7 @@ public class CreateSubmit extends android.app.Fragment {
         etInfo.setVisibility(View.VISIBLE);
         tvPlace.setVisibility(View.VISIBLE);
         etPlaceName.setVisibility(View.VISIBLE);
-        //ivPicture.setVisibility(View.VISIBLE);
+        ivPicture.setVisibility(View.VISIBLE);
     }
 
     public void addMonument() {
@@ -302,7 +297,7 @@ public class CreateSubmit extends android.app.Fragment {
 
         //Put extra werkt niet om 1 of andere reden...
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-        Log.e("fileUri: ", "" + fileUri);
+        //Log.e("fileUri: ", "" + fileUri);
         // start the image capture Intent
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
@@ -332,7 +327,7 @@ public class CreateSubmit extends android.app.Fragment {
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("TouringGuide", "failed to create directory");
+                //Log.d("TouringGuide", "failed to create directory");
                 return null;
             }
         }
@@ -359,7 +354,7 @@ public class CreateSubmit extends android.app.Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Data is altijd null omdat de intent.putExtra niet werkt...
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                 try {
                     //pakt de foto via de file uri... en zet hem vervolgens in de ImageView
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(rootView.getContext().getContentResolver(), fileUri);
@@ -367,7 +362,7 @@ public class CreateSubmit extends android.app.Fragment {
                     takenpicture= true;
                 } catch (Exception e) {
                     //catch filenotfoundexception
-                    Log.e("Error : ", "File not Found denk ik");
+                    //Log.e("Error : ", "File not Found denk ik");
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // User cancelled the image capture
