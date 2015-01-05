@@ -24,6 +24,7 @@ public class UploadThisFile extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        Log.e("UploadThisFile: ", "test");
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
         String lineEnd = "\r\n";

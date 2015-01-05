@@ -25,6 +25,7 @@ public class InsertMyData extends AsyncTask<String, Void, Void>{
         protected Void doInBackground(String... params) {
             String url = null;
             android.os.Debug.waitForDebugger();
+            Log.e("link:  --->  ", params[0]);
             try {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 url = params[0].replaceAll(" ", "%20");

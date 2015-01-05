@@ -120,7 +120,7 @@ public class Main extends FragmentActivity
                 mMap.setMyLocationEnabled(true);
                 //TODO latlong actuele plaats
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Data.lat, Data.lon),
-                        10));
+                        13));
             }
         }
     }
@@ -268,7 +268,7 @@ public class Main extends FragmentActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+
             restoreActionBar();
             return true;
         }
@@ -328,5 +328,11 @@ public class Main extends FragmentActivity
             ((Main) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.e("test tag","Ik ben nu op pauze");
     }
 }

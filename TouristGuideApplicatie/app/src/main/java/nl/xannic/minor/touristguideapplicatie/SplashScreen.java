@@ -238,17 +238,21 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 
         String sql = "http://xannic.nl/api/json2.php";
         sql += "?q=";
-        sql += "SELECT ID, Name, CategoryID, lat, lon";
+        sql += "SELECT ID, Name, CategoryID, lat, lon, isVisible, Image";
         sql += " FROM Events";
+        sql += " WHERE isVisible = 1";
         sql += " UNION ALL";
-        sql += " SELECT ID, Name, CategoryID, lat, lon";
+        sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible, Image";
         sql += " FROM FoodsAndDrinks";
+        sql += " WHERE isVisible = 1";
         sql += " UNION ALL";
-        sql += " SELECT ID, Name, CategoryID, lat, lon";
+        sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible, Image";
         sql += " FROM MuseaAndBuildings";
+        sql += " WHERE isVisible = 1";
         sql += " UNION ALL";
-        sql += " SELECT ID, Name, CategoryID, lat, lon";
+        sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible, Image";
         sql += " FROM StatueAndMonuments";
+        sql += " WHERE isVisible = 1";
         sql += " ORDER BY Name";
         //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
         sql += " LIMIT 25";
@@ -360,6 +364,8 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             Data data  = new Data();
             Data.cityName = "City";
             Data.itemList = (ArrayList<Item>)items;
+            Data.lat = lat;
+            Data.lon = lon;
             goToMain();
             return items;
         }
