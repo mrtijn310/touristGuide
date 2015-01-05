@@ -31,6 +31,7 @@ public class Data{
     public static String cityName = "City";
     public static double lat, lon;
     public static double newLat, newLon;
+    public static boolean[] isCatVisible = new boolean[]{true, true, true, true};
 
     LocationManager locManager;
     LocationListener locListener;

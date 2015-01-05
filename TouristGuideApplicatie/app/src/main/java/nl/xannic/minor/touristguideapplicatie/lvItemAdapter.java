@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -57,45 +58,50 @@ public class lvItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
+
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.lv_overview_row, null);
 
-        ImageView ivColorImage = (ImageView) vi.findViewById(R.id.ivColorImage);
-        TextView tvTitle = (TextView) vi.findViewById(R.id.tvTitle);
-        //TextView tvDistance = (TextView) vi.findViewById(R.id.tvDistance);
+        //if(Data.isCatVisible[position] == true) {
 
-        switch(categories[position]) {
 
-            case 1:
-                ivColorImage.setImageResource(R.drawable.red);
-                break;
-            case 2:
-                ivColorImage.setImageResource(R.drawable.green);
-                break;
-            case 3:
-                ivColorImage.setImageResource(R.drawable.blue);
-                break;
-            case 4:
-                ivColorImage.setImageResource(R.drawable.yellow);
-                break;
+            ImageView ivColorImage = (ImageView) vi.findViewById(R.id.ivColorImage);
+            TextView tvTitle = (TextView) vi.findViewById(R.id.tvTitle);
+            //TextView tvDistance = (TextView) vi.findViewById(R.id.tvDistance);
+
+            switch (categories[position]) {
+
+                case 1:
+                    ivColorImage.setImageResource(R.drawable.green);
+                    break;
+                case 2:
+                    ivColorImage.setImageResource(R.drawable.red);
+                    break;
+                case 3:
+                    ivColorImage.setImageResource(R.drawable.blue);
+                    break;
+                case 4:
+                    ivColorImage.setImageResource(R.drawable.yellow);
+                    break;
 //            case 5:
 //                ivColorImage.setImageResource(R.drawable.purple);
 //                break;
 //            case 6:
 //                ivColorImage.setImageResource(R.drawable.cyan);
 //                break;
-            default:
-                ivColorImage.setImageResource(R.drawable.green);
-                break;
+                default:
+                    ivColorImage.setImageResource(R.drawable.white);
+                    break;
 
-        }
+            }
 
-        tvTitle.setText(titles[position]);
-        //tvDistance.setText(distances[position]);
+            tvTitle.setText(titles[position]);
+            //tvDistance.setText(distances[position]);
 
-
+//        }
 
         return vi;
+
     }
 }

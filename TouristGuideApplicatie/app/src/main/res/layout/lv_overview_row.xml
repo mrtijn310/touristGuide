@@ -5,42 +5,42 @@
     android:orientation="horizontal"
     android:padding="5dip" >
 
-    <LinearLayout android:id="@+id/llCategoryColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="3dip"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dip">
-
-        <ImageView
-            android:id="@+id/ivColorImage"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:src="@drawable/red"/>
-
-    </LinearLayout>
-
-    <RelativeLayout android:id="@+id/llText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="3dip"
-        android:layout_marginRight="5dip"
-        android:layout_alignTop="@+id/llCategoryColor"
-        android:layout_toRightOf="@+id/llCategoryColor"
-        >
-        <TextView
-            android:id="@+id/tvTitle"
+        <LinearLayout android:id="@+id/llCategoryColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            />
+            android:padding="3dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dip">
 
-        <!--<TextView-->
-            <!--android:id="@+id/tvDistance"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/tvTitle"-->
-            <!--/>-->
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/ivColorImage"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:src="@drawable/red"/>
+
+        </LinearLayout>
+
+        <RelativeLayout android:id="@+id/llText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="3dip"
+            android:layout_marginRight="5dip"
+            android:layout_alignTop="@+id/llCategoryColor"
+            android:layout_toRightOf="@+id/llCategoryColor"
+            >
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                />
+
+            <!--<TextView-->
+                <!--android:id="@+id/tvDistance"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/tvTitle"-->
+                <!--/>-->
+        </RelativeLayout>
 
 </RelativeLayout>
