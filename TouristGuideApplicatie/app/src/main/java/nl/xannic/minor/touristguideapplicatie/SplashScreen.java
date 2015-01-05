@@ -1,27 +1,18 @@
 package nl.xannic.minor.touristguideapplicatie;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -197,7 +188,6 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             foundLocation = locationManager
                     .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
-        Log.e("FOUNDLOCATION", foundLocation + "");
         return foundLocation;
     }
 
@@ -375,6 +365,8 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             Data data  = new Data();
             Data.cityName = "City";
             Data.itemList = (ArrayList<Item>)items;
+            Data.lat = lat;
+            Data.lon = lon;
             goToMain();
             return items;
         }
