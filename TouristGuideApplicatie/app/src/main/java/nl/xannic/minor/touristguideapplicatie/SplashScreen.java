@@ -1,13 +1,18 @@
 package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -53,6 +58,11 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     int locationUpdateTimeMilliseconds = 300000;
     int locationUpdateMeter = 10;
     boolean ISTEST = false;
+    LocationManager locationManager;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    boolean isGoToMain = true;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,26 +98,11 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             goToMain();
         }
 
-        else
-        {
+        else {
             initClient();
             initManager();
-            getLocation();
-//            locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//            locListener = new locationListener();
-//            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-
-//            Data mData = new Data();
-//            mData.getLocation();
-//           goToMain();
         }
     }
-
-//    public void getLocation() {
-//        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        locListener = new locationListener();
-//        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, locationUpdateTimeMilliseconds, locationUpdateMeter, locListener);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,9 +120,113 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         return super.onOptionsItemSelected(item);
     }
 
-    boolean isGoToMain = true;
+    @Override
+    public void onResume()
+    {
+        super.onResume();
 
-    public void goToMain() {
+        if(!isLocationAvailable()) {
+
+            final Context context = this;
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            dialog.setMessage("Uw GPS staat niet aan");
+            dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    context.startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    finish();
+
+                }
+            });
+            dialog.show();
+        }
+
+        if(!isNetworkAvailable()) {
+
+        final Context context = this;
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setMessage("Uw telefoon is niet verbonden met het internet");
+        dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                // TODO Auto-generated method stub
+                Intent myIntent = new Intent(Settings.ACTION_SETTINGS);
+                context.startActivity(myIntent);
+                //get gps
+            }
+        });
+        dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                finish();
+
+            }
+        });
+        dialog.show();
+    }
+
+
+
+
+
+
+
+
+        else {
+            getLocation();
+        }
+
+    }
+
+    private boolean isLocationAvailable()
+    {
+        boolean isGPSEnables = false, isNetworkEnables = false;
+
+        try{
+            isGPSEnables =  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+        catch(Exception ex){
+            return false;
+        }
+
+        try{
+            isNetworkEnables = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        catch(Exception ex) {
+            return false;
+        }
+
+        if(!isGPSEnables && !isNetworkEnables) {
+            return false;
+        }
+
+        else {
+            return true;
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void goToMain() {
         if(isGoToMain==true){
             isGoToMain = false;
             Intent intentMain = new Intent(this, Main.class);
@@ -137,9 +236,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         }
     }
 
-    LocationManager locationManager;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+
 
     public void initClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
