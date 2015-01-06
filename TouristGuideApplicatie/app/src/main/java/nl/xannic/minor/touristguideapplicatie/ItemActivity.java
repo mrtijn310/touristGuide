@@ -65,4 +65,13 @@ public class ItemActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent intentMain = new Intent(this, Main.class);
+        intentMain.putExtra("goToSplashScreen", "false");
+        startActivity(intentMain);
+        finish();
+    }
 }

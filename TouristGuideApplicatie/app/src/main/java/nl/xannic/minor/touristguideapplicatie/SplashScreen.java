@@ -367,6 +367,12 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
             Data.itemList = (ArrayList<Item>)items;
             Data.lat = lat;
             Data.lon = lon;
+            List<String> categories = new ArrayList<String>();
+            categories.add("Monumenten");
+            categories.add("Eetcafes");
+            categories.add("Evenementen");
+            categories.add("Musea");
+            Data.categoriesList = categories;
             goToMain();
             return items;
         }

@@ -20,7 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class Main extends FragmentActivity
     private List<String> categories;
     private List<Category> categoriesFinal;
     private ImageView imgToggle;
+    LayoutInflater inflater;
 
     Data data;
 
@@ -75,6 +79,7 @@ public class Main extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         imgToggle =  (ImageView) findViewById(R.id.imgToggle);
+        inflater = this.getLayoutInflater();
     }
 
     private void createDummyData(){
@@ -89,11 +94,7 @@ public class Main extends FragmentActivity
 
         item = Data.itemList;
 
-        categories = new ArrayList<String>();
-        categories.add("Monumenten");
-        categories.add("Eetcafes");
-        categories.add("Evenementen");
-        categories.add("Musea");
+        categories = Data.categoriesList;
 
         categoriesFinal = new ArrayList<Category>();
         categoriesFinal.add(new Category(1, "Monumenten"));
@@ -106,6 +107,7 @@ public class Main extends FragmentActivity
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        Log.e("Onresume", "Resume");
     }
 
     private void setUpMapIfNeeded() {
@@ -118,7 +120,6 @@ public class Main extends FragmentActivity
             if (mMap != null) {
                 setUpMap();
                 mMap.setMyLocationEnabled(true);
-                //TODO latlong actuele plaats
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Data.lat, Data.lon),
                         13));
             }
@@ -132,16 +133,61 @@ public class Main extends FragmentActivity
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.clear();
 
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.841928, 4.925339),
-//                10));
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(51.841928,4.925339)).title("test"));
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
+
+            private final View contents = getLayoutInflater().inflate(R.layout.windowlayout, null);
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                TextView tvTitel = (TextView) contents.findViewById(R.id.tvInfoTitle);
+                Button btMoreInfo = (Button) contents.findViewById(R.id.btMoreInfo);
+                ImageView ivIcon = (ImageView) contents.findViewById(R.id.ivPlaatje);
+                String test = marker.getTitle();
+                String itemId = marker.getSnippet();
+
+                List<Item> list = Data.itemList;
+                final Item data = list.get(Integer.parseInt(itemId));
+                tvTitel.setText(data.getName());
+                int catId = data.getCategoryID();
+                switch (catId){
+                    case 1:
+                        ivIcon.setImageResource(R.drawable.infowindowmonument);
+                        break;
+                    case 2:
+                        ivIcon.setImageResource(R.drawable.infowindowfood);
+                        break;
+                    case 3:
+                        ivIcon.setImageResource(R.drawable.infowindowevent);
+                        break;
+                    case 4:
+                        ivIcon.setImageResource(R.drawable.infowindowmusea);
+                        break;
+                }
+                return contents;
+            }
+        });
+        mMap.setOnInfoWindowClickListener(
+                new GoogleMap.OnInfoWindowClickListener(){
+                    public void onInfoWindowClick(Marker marker){
+                        String itemId = marker.getSnippet();
+
+                        List<Item> list = Data.itemList;
+                        Item data = list.get(Integer.parseInt(itemId));
+                        goToDetailWindow(data);
+                    }
+                });
         for(int i = 0; i < item.size(); i++) {
             double lat = item.get(i).getLat();
             double lon = item.get(i).getLon();
             String title = item.get(i).getName();
             int catId = item.get(i).getCategoryID();
+            int itemId = i;
 
             String catName = categoriesFinal.get(catId-1).getName();
             if(categories!=null){
@@ -149,24 +195,34 @@ public class Main extends FragmentActivity
                     switch(catId){
                         case 1:
                             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
-                                    .fromResource(R.drawable.statue_and_monuments)));
+                                    .fromResource(R.drawable.statue_and_monuments)).snippet(String.valueOf(itemId)));
                             break;
                         case 2:
                             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
-                                    .fromResource(R.drawable.food_and_drinks)));
+                                    .fromResource(R.drawable.food_and_drinks)).snippet(String.valueOf(itemId)));
                             break;
                         case 3:
                             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
-                                    .fromResource(R.drawable.event)));
+                                    .fromResource(R.drawable.event)).snippet(String.valueOf(itemId)));
                             break;
                         case 4:
                             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
-                                    .fromResource(R.drawable.museum)));
+                                    .fromResource(R.drawable.museum)).snippet(String.valueOf(itemId)));
                             break;
                     }
                 }
             }
         }
+    }
+
+    public void goToDetailWindow(Item data){
+        Intent intent = new Intent(this, ItemActivity.class);
+        // sending data to new activity
+        intent.putExtra("name", data.getName());
+        intent.putExtra("description", data.getInformation());
+        intent.putExtra("imageSource", data.getImage());
+        startActivity(intent);
+        finish();
     }
 
     public void removeCatFromMap(Category cat){
@@ -187,6 +243,7 @@ public class Main extends FragmentActivity
         else{
             categories.add(name);
         }
+        mMap.clear();
         setUpMap();
     }
 
@@ -199,7 +256,6 @@ public class Main extends FragmentActivity
             case 0:
                 fragment = new CreateMapFragment();
                 Log.e("Fragment : ", "Map");
-
                 break;
             case 1:
                 cat = categoriesFinal.get(0);
@@ -339,6 +395,5 @@ public class Main extends FragmentActivity
     @Override
     public void onPause(){
         super.onPause();
-        Log.e("test tag","Ik ben nu op pauze");
     }
 }

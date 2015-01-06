@@ -32,6 +32,7 @@ public class Data{
     public static double lat, lon;
     public static double newLat, newLon;
     public static boolean[] isCatVisible = new boolean[]{true, true, true, true};
+    public static List<String> categoriesList = new ArrayList<String>();
 
     LocationManager locManager;
     LocationListener locListener;
