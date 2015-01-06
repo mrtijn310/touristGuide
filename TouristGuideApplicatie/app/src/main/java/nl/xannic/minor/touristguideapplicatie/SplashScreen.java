@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.audiofx.BassBoost;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -61,6 +61,8 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     LocationManager locationManager;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    boolean isGoToMain = true;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,49 +99,8 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         }
 
         else {
-            boolean gps_enabled = false, network_enabled = false;
-
             initClient();
             initManager();
-
-
-            try{
-                gps_enabled =  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            }catch(Exception ex){}
-            try{
-                network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            }catch(Exception ex){}
-
-            if(!gps_enabled && !network_enabled) {
-
-                final Context context = this;
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                dialog.setMessage("Uw GPS staat niet aan");
-                dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        // TODO Auto-generated method stub
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        context.startActivity(myIntent);
-                        //get gps
-                    }
-                });
-                dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
-                dialog.show();
-            }
-
-            else {
-                getLocation();
-            }
         }
     }
 
@@ -159,9 +120,113 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         return super.onOptionsItemSelected(item);
     }
 
-    boolean isGoToMain = true;
+    @Override
+    public void onResume()
+    {
+        super.onResume();
 
-    public void goToMain() {
+        if(!isLocationAvailable()) {
+
+            final Context context = this;
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            dialog.setMessage("Uw GPS staat niet aan");
+            dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    context.startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    finish();
+
+                }
+            });
+            dialog.show();
+        }
+
+        if(!isNetworkAvailable()) {
+
+        final Context context = this;
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setMessage("Uw telefoon is niet verbonden met het internet");
+        dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                // TODO Auto-generated method stub
+                Intent myIntent = new Intent(Settings.ACTION_SETTINGS);
+                context.startActivity(myIntent);
+                //get gps
+            }
+        });
+        dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                finish();
+
+            }
+        });
+        dialog.show();
+    }
+
+
+
+
+
+
+
+
+        else {
+            getLocation();
+        }
+
+    }
+
+    private boolean isLocationAvailable()
+    {
+        boolean isGPSEnables = false, isNetworkEnables = false;
+
+        try{
+            isGPSEnables =  locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+        catch(Exception ex){
+            return false;
+        }
+
+        try{
+            isNetworkEnables = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        catch(Exception ex) {
+            return false;
+        }
+
+        if(!isGPSEnables && !isNetworkEnables) {
+            return false;
+        }
+
+        else {
+            return true;
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void goToMain() {
         if(isGoToMain==true){
             isGoToMain = false;
             Intent intentMain = new Intent(this, Main.class);
