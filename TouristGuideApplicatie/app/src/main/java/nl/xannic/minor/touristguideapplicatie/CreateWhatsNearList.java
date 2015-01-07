@@ -20,24 +20,14 @@ import java.util.List;
  */
 public class CreateWhatsNearList extends Fragment {
     ListView  lvOverview;
-    double[] lats;
-    double[] lons;
     String[] names;
-    int[] IDs;
     int[] categories;
-    String[] schoolbag;
-    double[] distances;
     String[] stringDist;
     Context context;
 
     private List<String> strCategories;
     private List<Category> strCategoriesFinal;
 
-
-    double lat;
-    double lon;
-    double newLat;
-    double newLon;
     View rootView;
     ArrayList<Item> itemList;
     Data data;
@@ -76,7 +66,6 @@ public class CreateWhatsNearList extends Fragment {
     private void makeList(final ArrayList<Item> itemList )
     {
         int size = itemList.size();
-        String[] stringCat = new String[size];
 
         LinkedList<Integer> lstCategories = new LinkedList<Integer>();
         LinkedList<String> lstNames = new LinkedList<String>();

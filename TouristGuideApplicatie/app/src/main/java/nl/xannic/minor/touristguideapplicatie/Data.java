@@ -84,10 +84,6 @@ public class Data{
 //            newLon /= 1000;
 
             GetCoordinates getCoordinates = new GetCoordinates();
-            //String sql = "http://xannic.nl/api/json2.php";
-            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
-            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
-            //sql += "%20ORDER%20BY%20abs(lat%20-%20("+ lat +"))%20+%20abs(%20lon%20-%20("+lon+"))%20LIMIT%2030";
 
             String sql = "SELECT ID, Name, CategoryID";
             sql += "FROM Events";

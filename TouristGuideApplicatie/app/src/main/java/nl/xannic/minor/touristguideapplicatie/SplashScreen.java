@@ -124,70 +124,67 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     public void onResume()
     {
         super.onResume();
-
-        if(!isLocationAvailable()) {
-
-            final Context context = this;
-
-            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-            dialog.setMessage("Uw GPS staat niet aan");
-            dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    // TODO Auto-generated method stub
-                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    context.startActivity(myIntent);
-                    //get gps
-                }
-            });
-            dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    finish();
-
-                }
-            });
-            dialog.show();
-        }
-
-        if(!isNetworkAvailable()) {
-
-        final Context context = this;
-
-        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-        dialog.setMessage("Uw telefoon is niet verbonden met het internet");
-        dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                // TODO Auto-generated method stub
-                Intent myIntent = new Intent(Settings.ACTION_SETTINGS);
-                context.startActivity(myIntent);
-                //get gps
+        if (!ISTEST) {
+            if (isLocationAvailable() && isNetworkAvailable()) {
+                getLocation();
             }
-        });
-        dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                finish();
+            else
+            {
+                if (!isLocationAvailable()) {
 
+                    final Context context = this;
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setMessage("Uw GPS staat niet aan");
+                    dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            // TODO Auto-generated method stub
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            context.startActivity(myIntent);
+                            //get gps
+                        }
+                    });
+                    dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            finish();
+
+                        }
+                    });
+                    dialog.show();
+                }
+
+                if (!isNetworkAvailable()) {
+
+                    final Context context = this;
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setMessage("Uw telefoon is niet verbonden met het internet");
+                    dialog.setPositiveButton("Ga naar instellingen", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            // TODO Auto-generated method stub
+                            Intent myIntent = new Intent(Settings.ACTION_SETTINGS);
+                            context.startActivity(myIntent);
+                            //get gps
+                        }
+                    });
+                    dialog.setNegativeButton("Annuleren", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            finish();
+
+                        }
+                    });
+                    dialog.show();
+                }
             }
-        });
-        dialog.show();
-    }
-
-
-
-
-
-
-
-
-        else {
-            getLocation();
         }
 
     }
