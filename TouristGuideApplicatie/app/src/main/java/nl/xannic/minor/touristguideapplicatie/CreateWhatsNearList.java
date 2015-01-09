@@ -68,15 +68,43 @@ public class CreateWhatsNearList extends Fragment {
         int size = itemList.size();
 
         LinkedList<Integer> lstCategories = new LinkedList<Integer>();
-        LinkedList<String> lstNames = new LinkedList<String>();
+        final LinkedList<String> lstNames = new LinkedList<String>();
+        final LinkedList<String> lstDescriptions = new LinkedList<String>();
+        final LinkedList<String> lstImages = new LinkedList<String>();
         stringDist = new String[10];
 
         for(int n = 0; n < size; n++) {
-            int catId = itemList.get(n).getCategoryID();
-            if (Data.isCatVisible[catId-1] == true)
+
+            if (itemList.get(n).getCategoryID() == 1 && Data.categoriesList.contains("Monumenten") )
             {
                 lstCategories.add(itemList.get(n).getCategoryID());
                 lstNames.add(itemList.get(n).getName());
+                lstDescriptions.add(itemList.get(n).getInformation());
+                lstImages.add(itemList.get(n).getImage());
+            }
+
+            else if (itemList.get(n).getCategoryID() == 2 && Data.categoriesList.contains("Eetcafes") )
+            {
+                lstCategories.add(itemList.get(n).getCategoryID());
+                lstNames.add(itemList.get(n).getName());
+                lstDescriptions.add(itemList.get(n).getInformation());
+                lstImages.add(itemList.get(n).getImage());
+            }
+
+            else if (itemList.get(n).getCategoryID() == 3 && Data.categoriesList.contains("Evenementen") )
+            {
+                lstCategories.add(itemList.get(n).getCategoryID());
+                lstNames.add(itemList.get(n).getName());
+                lstDescriptions.add(itemList.get(n).getInformation());
+                lstImages.add(itemList.get(n).getImage());
+            }
+
+            else if (itemList.get(n).getCategoryID() == 4 && Data.categoriesList.contains("Musea") )
+            {
+                lstCategories.add(itemList.get(n).getCategoryID());
+                lstNames.add(itemList.get(n).getName());
+                lstDescriptions.add(itemList.get(n).getInformation());
+                lstImages.add(itemList.get(n).getImage());
             }
         }
 
@@ -98,18 +126,12 @@ public class CreateWhatsNearList extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                // selected item
-                String product = "ID: " + itemList.get(position).getID();
-                product += "\nName: " + itemList.get(position).getName();
-
-                //Toast.makeText(getApplicationContext(), product, Toast.LENGTH_SHORT).show();
-
                 // Launching new Activity on selecting single List Item
                 Intent intent = new Intent(context, ItemActivity.class);
                 // sending data to new activity
-                intent.putExtra("name", itemList.get(position).getName());
-                intent.putExtra("description", itemList.get(position).getInformation());
-                intent.putExtra("imageSource", itemList.get(position).getImage());
+                intent.putExtra("name", lstNames.get(position));
+                intent.putExtra("description", lstDescriptions.get(position));
+                intent.putExtra("imageSource", lstImages.get(position));
 
                 startActivity(intent);
             }

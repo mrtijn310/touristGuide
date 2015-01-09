@@ -76,8 +76,6 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         imgSplash.setImageResource(R.drawable.splash);
         Config.context = this;
 
-
-
         if (ISTEST)
         {
             ArrayList<Item> testItems = new ArrayList<Item>();
@@ -121,6 +119,12 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     }
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        finish();
+    }
+
+    @Override
     public void onResume()
     {
         super.onResume();
@@ -155,6 +159,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 
                         }
                     });
+                    dialog.setCancelable(false);
                     dialog.show();
                 }
 
@@ -182,6 +187,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 
                         }
                     });
+                    dialog.setCancelable(false);
                     dialog.show();
                 }
             }
@@ -307,10 +313,6 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         newLon /= 1000;
 
         GetCoordinates getCoordinates = new GetCoordinates();
-//            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
-//            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
-
-//        String sql = "http://xannic.nl/api/json2.php";
 
         String sql = "http://xannic.nl/api/json4.php";
         sql +="?getevents=1";
@@ -331,91 +333,8 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
 
 
 
-
-//        sql += "?q=";
-//        sql += "SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
-//        sql += " FROM Events";
-//        sql += " WHERE isVisible = 1";
-//        sql += " UNION ALL";
-//        sql += " SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
-//        sql += " FROM FoodsAndDrinks";
-//        sql += " WHERE isVisible = 1";
-//        sql += " UNION ALL";
-//        sql += " SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
-//        sql += " FROM MuseaAndBuildings";
-//        sql += " WHERE isVisible = 1";
-//        sql += " UNION ALL";
-//        sql += " SELECT ID, Name, CategoryID, lat, lon, Information, Image, isVisible";
-//        sql += " FROM StatueAndMonuments";
-//        sql += " WHERE isVisible = 1";
-//        sql += " ORDER BY Name";
-//        //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
-//        sql += " LIMIT 25";
         sql = sql.replaceAll(" ", "%20");
         getCoordinates.execute(sql);
-    }
-
-    // locationListener
-    public class locationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location loc) {
-            lat = loc.getLatitude();
-            lon = loc.getLongitude();
-
-            newLat = lat * 1000;
-            newLat = Math.round(newLat);
-            newLat /= 1000;
-
-            newLon = lon * 1000;
-            newLon = Math.round(newLon);
-            newLon /= 1000;
-
-            GetCoordinates getCoordinates = new GetCoordinates();
-//            //sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments";
-//            sql += "?q=SELECT%20*%20FROM%20StatueAndMonuments%20ORDER%20BY%20ID%20DESC%20LIMIT%2010";
-
-            String sql = "http://xannic.nl/api/json2.php";
-            sql += "?q=";
-            sql += "SELECT ID, Name, CategoryID, lat, lon, isVisible";
-            sql += " FROM Events";
-            sql += " WHERE isVisible = 1";
-            sql += " UNION ALL";
-            sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible";
-            sql += " FROM FoodsAndDrinks";
-            sql += " WHERE isVisible = 1";
-            sql += " UNION ALL";
-            sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible";
-            sql += " FROM MuseaAndBuildings";
-            sql += " WHERE isVisible = 1";
-            sql += " UNION ALL";
-            sql += " SELECT ID, Name, CategoryID, lat, lon, isVisible";
-            sql += " FROM StatueAndMonuments";
-            sql += " WHERE isVisible = 1";
-            //sql += " ORDER BY abs(lat - (51.818400)) + abs( lon - (4.654671))";
-            sql += " LIMIT 10";
-            sql = sql.replaceAll(" ", "%20");
-            getCoordinates.execute(sql);
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-//            Toast.makeText(getApplicationContext(),
-//                    "Gps Disabled",
-//                    Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-//            Toast.makeText(getApplicationContext(),
-//                    "Gps Enabled",
-//                    Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
     }
 
     // AsyncTask GetCoordinates

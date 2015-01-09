@@ -6,10 +6,10 @@ package nl.xannic.minor.touristguideapplicatie;
 public class Item {
     private int ID, CityID, CategoryID;
     private double lat, lon, distance;
-    private String Name, Information, Image;
+    private String Name, Information, Image, Category;
 
 
-    Item(int ID, String Name, String Information, double lat, double lon, int CityID, int CategoryID, String Image){
+    public Item (int ID, String Name, String Information, double lat, double lon, int CityID, int CategoryID, String Image){
         this.ID = ID;
         this.Name = Name;
         this.Information = Information;
@@ -18,9 +18,31 @@ public class Item {
         this.CityID = CityID;
         this.CategoryID = CategoryID;
         this.Image = Image;
+
+//        categories.add("Monumenten");
+//        categories.add("Eetcafes");
+//        categories.add("Evenementen");
+//        categories.add("Musea");
+
+        switch(CategoryID) {
+            case 0:
+                this.Category = "Monumenten";
+                break;
+            case 1:
+                this.Category = "Eetcafes";
+                break;
+            case 2:
+                this.Category = "Evenementen";
+                break;
+            case 3:
+                this.Category = "Musea";
+                break;
+            default:
+                this.Category = "Onbekend";
+        }
     }
 
-    Item(int ID, int CategoryID, double lat, double lon, double distance, String Name , String Image){
+    public Item (int ID, int CategoryID, double lat, double lon, double distance, String Name , String Image){
         this.ID = ID;
         this.CategoryID = CategoryID;
         this.lon = lon;
@@ -28,6 +50,23 @@ public class Item {
         this.distance = distance;
         this.Name = Name;
         this.Image = Image;
+
+        switch(CategoryID) {
+            case 0:
+                this.Category = "Monumenten";
+                break;
+            case 1:
+                this.Category = "Eetcafes";
+                break;
+            case 2:
+                this.Category = "Evenementen";
+                break;
+            case 3:
+                this.Category = "Musea";
+                break;
+            default:
+                this.Category = "Onbekend";
+        }
     }
 
     public int getID() {
@@ -100,5 +139,13 @@ public class Item {
 
     public void setImage(String image) {
         Image = image;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
     }
 }
