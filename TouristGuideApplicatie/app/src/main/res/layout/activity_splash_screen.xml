@@ -15,8 +15,40 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/imgSplash"
+        android:src="@drawable/splash"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:layout_centerHorizontal="true"
+        >
+
+        <ImageView
+            android:layout_width="128px"
+            android:layout_height="128px"
+            android:id="@+id/imgLoader"
+            android:src="@drawable/loader08"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Laden"
+            android:id="@+id/tvLaden"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

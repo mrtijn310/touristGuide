@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,6 +57,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
     LocationListener locListener;
     //    List<Item> itemList = new ArrayList<Item>();
     ImageView imgSplash;
+    ImageView imgLoader;
     int locationUpdateTimeMilliseconds = 300000;
     int locationUpdateMeter = 10;
     boolean ISTEST = false;
@@ -73,8 +76,12 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         setContentView(R.layout.activity_splash_screen);
 
         imgSplash = (ImageView) findViewById(R.id.imgSplash);
-        imgSplash.setImageResource(R.drawable.splash);
+        imgLoader = (ImageView) findViewById(R.id.imgLoader);
         Config.context = this;
+
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.circleloader);
+        a.setDuration(3000);
+        imgLoader.startAnimation(a);
 
         if (ISTEST)
         {
@@ -319,6 +326,7 @@ public class SplashScreen extends Activity implements GoogleApiClient.Connection
         sql +="&getfoodsanddrinks=1";
         sql +="&getmuseaandbuildings=1";
         sql +="&getstatueandmonuments=1";
+        //sql +="&getovstations=1";
 
         // I Have switched the lat and lon on purpose, for safety reasons (sort of (-; ).
         sql +="&lattitude=" + lon;
