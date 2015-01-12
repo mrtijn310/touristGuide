@@ -72,21 +72,6 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
             case 2:
                 imgToggle.setVisibility(View.VISIBLE);
                 break;
-//            case 3:
-//                ivColorImage.setImageResource(R.drawable.blue);
-//                break;
-//            case 4:
-//                ivColorImage.setImageResource(R.drawable.yellow);
-//                break;
-//            case 5:
-//                ivColorImage.setImageResource(R.drawable.purple);
-//                break;
-//            case 6:
-//                ivColorImage.setImageResource(R.drawable.cyan);
-//                break;
-//            default:
-//                cbxToggle.setVisibility(View.GONE);
-//                break;
         }
 
         tvTitle.setText(titles[position]);

@@ -119,14 +119,11 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section4),
                         getString(R.string.title_section5),
                         getString(R.string.title_section6),
-                        getString(R.string.title_section7),
+//                        getString(R.string.title_section7),
                 };
-
 
         NavigationDrawerItemAdapter itemAdapter = new NavigationDrawerItemAdapter(context, catttt, titlesss);
         mDrawerListView.setAdapter(itemAdapter);
-
-
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,54 +133,42 @@ public class NavigationDrawerFragment extends Fragment {
 
                 switch((int) id) {
                     case 1:
-                        if (isChecked[1])
+                        if (!Data.categoriesList.contains("Monumenten") )
                         {
                             imgToggle.setImageResource(R.drawable.cbxunchecked);
-                            isChecked[1] = false;
                         } else
                         {
                             imgToggle.setImageResource(R.drawable.cbxchecked);
-                            isChecked[1] = true;
                         }
                         break;
                     case 2:
-                        if (isChecked[2])
+                        if (!Data.categoriesList.contains("Eetcafes"))
                         {
                             imgToggle.setImageResource(R.drawable.cbxunchecked);
-                            isChecked[2] = false;
-                        } else
+                        }
+                        else
                         {
                             imgToggle.setImageResource(R.drawable.cbxchecked);
-                            isChecked[2] = true;
                         }
                         break;
                     case 3:
-                       if (isChecked[3])
-                        {
+                        if (!Data.categoriesList.contains("Evenementen") )
                             imgToggle.setImageResource(R.drawable.cbxunchecked);
-                            isChecked[3] = false;
-                        } else
-                        {
+                        else
                             imgToggle.setImageResource(R.drawable.cbxchecked);
-                            isChecked[3] = true;
-                        }
                         break;
                     case 4:
-                        if (isChecked[4])
+                        if (!Data.categoriesList.contains("Musea") )
                         {
                             imgToggle.setImageResource(R.drawable.cbxunchecked);
-                            isChecked[4] = false;
                         } else
                         {
                             imgToggle.setImageResource(R.drawable.cbxchecked);
-                            isChecked[4] = true;
                         }
                         break;
                 }
             }
         });
-
-
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -365,5 +350,41 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    private boolean[] checkBool(int lenght){
+        boolean[] isChecked = new boolean[lenght];
+        if (!Data.categoriesList.contains("Monumenten") )
+        {
+            isChecked[0] = false;
+        } else
+        {
+            isChecked[0] = true;
+        }
+
+        if (!Data.categoriesList.contains("Eetcafes"))
+        {
+            isChecked[1] = false;
+        } else
+        {
+            isChecked[1] = true;
+        }
+
+        if (!Data.categoriesList.contains("Evenementen") )
+        {
+            isChecked[2] = false;
+        } else
+        {
+            isChecked[2] = true;
+        }
+
+        if (!Data.categoriesList.contains("Musea") )
+        {
+            isChecked[3] = false;
+        } else
+        {
+            isChecked[3] = true;
+        }
+        return isChecked;
     }
 }

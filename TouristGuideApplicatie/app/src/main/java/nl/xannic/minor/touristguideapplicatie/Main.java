@@ -106,8 +106,6 @@ public class Main extends FragmentActivity
 
         item = Data.itemList;
 
-        categories = Data.categoriesList;
-
         categoriesFinal = new ArrayList<Category>();
         categoriesFinal.add(new Category(1, "Monumenten"));
         categoriesFinal.add(new Category(2, "Eetcafes"));
@@ -202,8 +200,8 @@ public class Main extends FragmentActivity
             int itemId = i;
 
             String catName = categoriesFinal.get(catId-1).getName();
-            if(categories!=null){
-                if (categories.contains(catName)) {
+            if(Data.categoriesList!=null){
+                if (Data.categoriesList.contains(catName)) {
                     switch(catId){
                         case 1:
                             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(title).icon(BitmapDescriptorFactory
@@ -240,20 +238,20 @@ public class Main extends FragmentActivity
     public void removeCatFromMap(Category cat){
         int catID = cat.getID();
         String name = cat.getName();
-        if(categories!=null){
-            if(categories.contains(name))
+        if(Data.categoriesList!=null){
+            if(Data.categoriesList.contains(name))
             {
-                categories.remove(name);
+                Data.categoriesList.remove(name);
                 //Data.isCatVisible[catID] = false;
             }
             else
             {
-                categories.add(name);
+                Data.categoriesList.add(name);
                 //Data.isCatVisible[catID] = true;
             }
         }
         else{
-            categories.add(name);
+            Data.categoriesList.add(name);
         }
         mMap.clear();
         setUpMap();
