@@ -24,6 +24,7 @@ public class CreateWhatsNearList extends Fragment {
     int[] categories;
     String[] stringDist;
     Context context;
+    Activity activity;
 
     private List<String> strCategories;
     private List<Category> strCategoriesFinal;
@@ -61,6 +62,7 @@ public class CreateWhatsNearList extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context=activity;
+        this.activity = activity;
     }
 
     private void makeList(final ArrayList<Item> itemList )
@@ -134,6 +136,7 @@ public class CreateWhatsNearList extends Fragment {
                 intent.putExtra("imageSource", lstImages.get(position));
 
                 startActivity(intent);
+                activity.finish();
             }
         });
 
