@@ -96,4 +96,6 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
 
         return vi;
     }
+
+
 }

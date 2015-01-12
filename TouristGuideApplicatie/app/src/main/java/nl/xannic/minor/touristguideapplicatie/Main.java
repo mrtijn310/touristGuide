@@ -80,6 +80,18 @@ public class Main extends FragmentActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         imgToggle =  (ImageView) findViewById(R.id.imgToggle);
         inflater = this.getLayoutInflater();
+
+
+        Intent intent = new Intent();
+        if(intent.getStringExtra("goToList") == "TRUE") {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new CreateWhatsNearList())
+                    .commit();
+        }
+
+
+
     }
 
     private void createDummyData(){
@@ -254,28 +266,62 @@ public class Main extends FragmentActivity
         Fragment fragment = null;
         switch(position) {
             case 0:
+                Data.inWhatsNearList = false;
                 fragment = new CreateMapFragment();
                 Log.e("Fragment : ", "Map");
                 break;
             case 1:
                 cat = categoriesFinal.get(0);
                 removeCatFromMap(cat);
+
+                if(Data.inWhatsNearList)
+                {
+                    fragment = new CreateWhatsNearList();
+                }
+
+
+//                Activity cwnlActivity = CreateWhatsNearList.activity
+//                cwnlActivity.updateDrawer();
+
                 break;
             case 2:
                 cat = categoriesFinal.get(1);
                 removeCatFromMap(cat);
+                if(Data.inWhatsNearList)
+                {
+                    fragment = new CreateWhatsNearList();
+                }
+
+
                 break;
             case 3:
                 cat = categoriesFinal.get(2);
                 removeCatFromMap(cat);
+                if(Data.inWhatsNearList)
+                {
+                    fragment = new CreateWhatsNearList();
+                }
+
+
+
                 break;
             case 4:
                 cat = categoriesFinal.get(3);
                 removeCatFromMap(cat);
+                if(Data.inWhatsNearList)
+                {
+                    fragment = new CreateWhatsNearList();
+                }
+
+
+
+
                 break;
             case 5:
+                Data.inWhatsNearList = true;
                 fragment = new CreateWhatsNearList();
                 Log.e("Fragment : ", "Lijst");
+
                 break;
             case 6:
                 fragment = new CreateSubmit();
@@ -396,4 +442,5 @@ public class Main extends FragmentActivity
     public void onPause(){
         super.onPause();
     }
-}
+
+    }

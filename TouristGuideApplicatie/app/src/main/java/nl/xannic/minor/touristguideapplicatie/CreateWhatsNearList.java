@@ -2,10 +2,12 @@ package nl.xannic.minor.touristguideapplicatie;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +21,13 @@ import java.util.List;
  * Created by Xander on 12/3/2014.
  */
 public class CreateWhatsNearList extends Fragment {
-    ListView  lvOverview;
+    public static ListView  lvOverview;
     String[] names;
     int[] categories;
     String[] stringDist;
-    Context context;
+    public static Context context;
+    private static lvItemAdapter itemAdapter;
+    public static Activity activity;
 
     private List<String> strCategories;
     private List<Category> strCategoriesFinal;
@@ -31,7 +35,6 @@ public class CreateWhatsNearList extends Fragment {
     View rootView;
     ArrayList<Item> itemList;
     Data data;
-
 
     public CreateWhatsNearList() {
     }
@@ -61,6 +64,7 @@ public class CreateWhatsNearList extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context=activity;
+        this.activity = activity;
     }
 
     private void makeList(final ArrayList<Item> itemList )
@@ -119,7 +123,7 @@ public class CreateWhatsNearList extends Fragment {
 
         lvOverview = (ListView) rootView.findViewById(R.id.lvOverview);
 
-        lvItemAdapter itemAdapter = new lvItemAdapter(context, categories, names);
+        itemAdapter = new lvItemAdapter(context, categories, names);
         lvOverview.setAdapter(itemAdapter);
 
         lvOverview.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -138,8 +142,15 @@ public class CreateWhatsNearList extends Fragment {
         });
 
 
+
+
         //lvOverview.setListAdapter(new lvItemAdapter(context.getApplicationContext(), cat, schoolbag, schoolbag));
         //lvOverview.setAdapter(new lvItemAdapter(getActivity().getApplicationContext(), categories, names, stringDist));
 
+    }
+
+    public static void UpdateList() {
+        lvOverview.invalidate();
+        //itemAdapter.notifyDataSetChanged();
     }
 }
