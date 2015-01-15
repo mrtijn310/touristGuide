@@ -133,14 +133,23 @@ public class CreateWhatsNearList extends Fragment {
                                     int position, long id) {
 
                 // Launching new Activity on selecting single List Item
-                Intent intent = new Intent(context, ItemActivity.class);
-                // sending data to new activity
-                intent.putExtra("name", lstNames.get(position));
-                intent.putExtra("description", lstDescriptions.get(position));
-                intent.putExtra("imageSource", lstImages.get(position));
+//                Intent intent = new Intent(context, ItemFragment.class);
+//                // sending data to new activity
+//                intent.putExtra("name", lstNames.get(position));
+//                intent.putExtra("description", lstDescriptions.get(position));
+//                intent.putExtra("imageSource", lstImages.get(position));
+//
+//                startActivity(intent);
+//                activity.finish();
 
-                startActivity(intent);
-                activity.finish();
+                ItemFragment fragment = new ItemFragment();
+                fragment.setVariables(lstNames.get(position),lstDescriptions.get(position),lstImages.get(position), activity);
+                if(fragment!=null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, fragment)
+                            .commit();
+                }
             }
         });
 
@@ -156,4 +165,6 @@ public class CreateWhatsNearList extends Fragment {
         lvOverview.invalidate();
         //itemAdapter.notifyDataSetChanged();
     }
+
+    public void onBackPressed(){}
 }

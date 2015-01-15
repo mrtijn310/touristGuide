@@ -211,13 +211,14 @@ public class Main extends FragmentActivity
     }
 
     public void goToDetailWindow(Item data){
-        Intent intent = new Intent(this, ItemActivity.class);
-        // sending data to new activity
-        intent.putExtra("name", data.getName());
-        intent.putExtra("description", data.getInformation());
-        intent.putExtra("imageSource", data.getImage());
-        startActivity(intent);
-        finish();
+        ItemFragment fragment = new ItemFragment();
+        fragment.setVariables(data.getName(),data.getInformation(),data.getImage(), this);
+        if(fragment!=null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
     }
 
     public void removeCatFromMap(Category cat){
@@ -379,6 +380,16 @@ public class Main extends FragmentActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(Data.inItem) {
+            ItemFragment i = new ItemFragment();
+            i.onBackPressed(getFragmentManager());
+        }
+        else
+            super.onBackPressed();
     }
 
     /**

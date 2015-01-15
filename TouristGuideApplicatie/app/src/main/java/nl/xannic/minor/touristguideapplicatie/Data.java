@@ -33,7 +33,7 @@ public class Data{
     public static double newLat, newLon;
     public static boolean[] isCatVisible = new boolean[]{true, true, true, true};
     public static List<String> categoriesList = new ArrayList<String>();
-
+    public static boolean inItem = false;
     public static boolean inWhatsNearList = false;
 
     LocationManager locManager;
