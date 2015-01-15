@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.style.UpdateLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -261,6 +262,12 @@ public class NavigationDrawerFragment extends Fragment {
                 mDrawerLayout.closeDrawer(mFragmentContainerView);
             }
         }
+
+        else
+        {
+          //  CreateWhatsNearList.UpdateList();
+        }
+
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }

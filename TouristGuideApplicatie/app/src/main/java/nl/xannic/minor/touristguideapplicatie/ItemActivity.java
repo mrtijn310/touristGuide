@@ -69,9 +69,20 @@ public class ItemActivity extends Activity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        Intent intentMain = new Intent(this, Main.class);
-        intentMain.putExtra("goToSplashScreen", "false");
-        startActivity(intentMain);
+
+        if(!Data.inWhatsNearList) {
+            Intent intentMain = new Intent(this, Main.class);
+            intentMain.putExtra("goToList", "FALSE");
+            startActivity(intentMain);
+        }
+
+        else {
+            Intent intentMain = new Intent(this, Main.class);
+            intentMain.putExtra("goToList", "TRUE");
+            startActivity(intentMain);
+        }
         finish();
     }
+
+
 }

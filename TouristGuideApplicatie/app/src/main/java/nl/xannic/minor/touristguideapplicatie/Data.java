@@ -34,6 +34,8 @@ public class Data{
     public static boolean[] isCatVisible = new boolean[]{true, true, true, true};
     public static List<String> categoriesList = new ArrayList<String>();
 
+    public static boolean inWhatsNearList = false;
+
     LocationManager locManager;
     LocationListener locListener;
 
