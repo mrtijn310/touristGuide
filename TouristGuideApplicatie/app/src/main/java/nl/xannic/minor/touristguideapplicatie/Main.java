@@ -67,7 +67,6 @@ public class Main extends FragmentActivity
 
         data = new Data();
 
-        //totdat we realtime data ophalen in splash screen
         createDummyData();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -83,14 +82,6 @@ public class Main extends FragmentActivity
     }
 
     private void createDummyData(){
-//        item = new ArrayList<Item>();
-//        Item dataItem;
-//        dataItem = new Item(1, "Kerk", "Prachtige kerk in Schelluinen", 51.841928, 4.925339, 1, 1, null);
-//        item.add(dataItem);
-//        dataItem = new Item(2, "Snackbar", "De lekkerste frietjes in Schelluinen", 51.841528, 4.825339, 1, 2, null);
-//        item.add(dataItem);
-//        dataItem = new Item(3, "Schaats Disco", "Iedereen tussen 12 en 18 is welkom", 51.831928, 4.725339, 1, 3, null);
-//        item.add(dataItem);
 
         item = Data.itemList;
 
@@ -124,12 +115,6 @@ public class Main extends FragmentActivity
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
     private void setUpMap() {
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
