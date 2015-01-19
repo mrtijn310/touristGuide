@@ -435,6 +435,7 @@ public class Main extends FragmentActivity
     @Override
     public void onPause(){
         super.onPause();
+        finish();
     }
 
     }
