@@ -1,4 +1,4 @@
-package nl.xannic.minor.touristguideapplicatie;
+package nl.xannic.minor.rondjerotterdam;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

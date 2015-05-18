@@ -1,4 +1,4 @@
-package nl.xannic.minor.touristguideapplicatie;
+package nl.xannic.minor.rondjerotterdam;
 
 import android.os.AsyncTask;
 import org.apache.http.client.methods.HttpGet;

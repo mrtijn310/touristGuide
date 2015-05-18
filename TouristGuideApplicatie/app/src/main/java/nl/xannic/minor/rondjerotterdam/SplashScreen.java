@@ -1,4 +1,4 @@
-package nl.xannic.minor.touristguideapplicatie;
+package nl.xannic.minor.rondjerotterdam;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,13 +33,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Locale;
-
-import nl.xannic.minor.touristguideapplicatie.Item;
 
 public class SplashScreen extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,

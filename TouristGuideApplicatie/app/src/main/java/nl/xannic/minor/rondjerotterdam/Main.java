@@ -1,4 +1,4 @@
-package nl.xannic.minor.touristguideapplicatie;
+package nl.xannic.minor.rondjerotterdam;
 
 import android.app.Activity;
 
@@ -6,10 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,8 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -435,7 +430,11 @@ public class Main extends FragmentActivity
     @Override
     public void onPause(){
         super.onPause();
-        finish();
-    }
 
     }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+    }
+}

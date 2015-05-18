@@ -1,4 +1,4 @@
-package nl.xannic.minor.touristguideapplicatie;
+package nl.xannic.minor.rondjerotterdam;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

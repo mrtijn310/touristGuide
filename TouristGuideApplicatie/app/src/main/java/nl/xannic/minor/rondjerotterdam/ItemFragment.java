@@ -1,14 +1,9 @@
-package nl.xannic.minor.touristguideapplicatie;
+package nl.xannic.minor.rondjerotterdam;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.SharedElementCallback;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +26,21 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_item, container, false);
-        Data.inItem = true;
-        TextView tvName = (TextView) view.findViewById(R.id.tvName);
-        TextView tvDescription = (TextView) view.findViewById(R.id.tvDescription);
-        ImageView ivImage = (ImageView) view.findViewById(R.id.ivImage);
-        tvName.setText(name);
-        tvDescription.setText(description);
-        int loader = R.drawable.empty_image;
-        ImageLoader imageLoader = new ImageLoader(activity.getApplicationContext());
-        imageLoader.DisplayImage(imageSource, loader, ivImage);
+        if(activity==null){
+            TextView tvName = (TextView) view.findViewById(R.id.tvName);
+            tvName.setText("Sorry something went wrong");
+        }else{
+            view = inflater.inflate(R.layout.activity_item, container, false);
+            Data.inItem = true;
+            TextView tvName = (TextView) view.findViewById(R.id.tvName);
+            TextView tvDescription = (TextView) view.findViewById(R.id.tvDescription);
+            ImageView ivImage = (ImageView) view.findViewById(R.id.ivImage);
+            tvName.setText(name);
+            tvDescription.setText(description);
+            int loader = R.drawable.empty_image;
+            ImageLoader imageLoader = new ImageLoader(activity.getApplicationContext());
+            imageLoader.DisplayImage(imageSource, loader, ivImage);
+        }
         return view;
     }
 

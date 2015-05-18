@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tourist Guide</string>
+    <string name="app_name">Rondje Rotterdam</string>
     <string name="title_section1">Kaart</string>
     <string name="title_section2">Monumenten</string>
     <string name="title_section3">Eetcafes</string>
